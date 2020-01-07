@@ -39,13 +39,49 @@
             <name>Mathieu BAGUE</name>
             <email>mathieu.bague@rte-france.com</email>
             <organization>RTE</organization>
-            <organizationUrl>http://www.rte-france.com</organizationUrl>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
         </developer>
         <developer>
             <name>Geoffroy JAMGOTCHIAN</name>
             <email>geoffroy.jamgotchian@rte-france.com</email>
             <organization>RTE</organization>
-            <organizationUrl>http://www.rte-france.com</organizationUrl>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Jon HARPER</name>
+            <email>jon.harper@rte-france.com</email>
+            <organization>RTE</organization>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Sylvain LECLERC</name>
+            <email>sylvain.leclerc@rte-france.com</email>
+            <organization>RTE</organization>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Sébastien Murgey</name>
+            <email>sebastien.murgey@rte-france.com</email>
+            <organization>RTE</organization>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Miora Ralambotiana</name>
+            <email>miora.ralambotiana@rte-france.com</email>
+            <organization>RTE</organization>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Anne Tilloy</name>
+            <email>anne.tilloy@rte-france.com</email>
+            <organization>RTE</organization>
+            <organizationUrl>http://www.rte-france.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Luma Zamarreño</name>
+            <email>zamarrenolm@aia.es</email>
+            <organization>Aplicaciones en Informatica Avanzada</organization>
+            <organizationUrl>http://www.aia.es</organizationUrl>
         </developer>
     </developers>
 
