@@ -30,6 +30,7 @@
 
         <maven.buildnumber.version>1.4</maven.buildnumber.version>
         <maven.checkstyle.version>3.1.0</maven.checkstyle.version>
+        <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <maven.gmavenplus.version>1.6.1</maven.gmavenplus.version>
         <maven.jacoco.version>0.8.2</maven.jacoco.version>
         <maven.javadoc.version>3.0.1</maven.javadoc.version>
@@ -71,6 +72,19 @@
                         <source>${java.version}</source>
                         <target>${java.version}</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
