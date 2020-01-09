@@ -24,6 +24,10 @@
     <name>Powsybl Parent Java</name>
     <description>Powsybl Parent Java</description>
 
+    <modules>
+        <module>powsybl-parent-all</module>
+    </modules>
+
     <properties>
         <!-- javac's source and target arguments accept both 1.8 and 8, but release accepts only 8 -->
         <java.version>8</java.version>
