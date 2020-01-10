@@ -157,7 +157,7 @@
             <id>jibinstalldocker</id>
             <activation>
                 <property>
-                    <name>powsyblJibInstallDocker</name>
+                    <name>powsyblInstallDocker</name>
                     <value>true</value>
                 </property>
                 <file>
@@ -188,7 +188,7 @@
             <id>deploydocker</id>
             <activation>
                 <property>
-                    <name>powsyblJibDeployDocker</name>
+                    <name>powsyblDeployDocker</name>
                     <value>true</value>
                 </property>
                 <file>

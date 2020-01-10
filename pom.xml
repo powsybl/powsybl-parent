@@ -208,7 +208,7 @@
             <id>checks</id>
             <activation>
                 <property>
-                    <name>powsyblchecks</name>
+                    <name>powsyblChecks</name>
                     <value>!false</value>
                 </property>
             </activation>
