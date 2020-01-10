@@ -20,6 +20,7 @@
     <module name="Translation"/>
 
     <module name="TreeWalker">
+        <module name="SuppressWarningsHolder"/>
         <module name="AbbreviationAsWordInName"/>
         <module name="AbstractClassName"/>
         <module name="ArrayTypeStyle"/>
@@ -70,4 +71,5 @@
             <property name="ignoreEnhancedForColon" value="false"/>
         </module>
     </module>
+    <module name="SuppressWarningsFilter"/>
 </module>
