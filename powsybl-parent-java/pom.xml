@@ -26,6 +26,7 @@
 
     <modules>
         <module>powsybl-parent-all</module>
+        <module>powsybl-parent-ws</module>
     </modules>
 
     <properties>
