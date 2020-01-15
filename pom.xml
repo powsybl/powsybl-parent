@@ -13,12 +13,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.powsybl</groupId>
-    <artifactId>powsybl-parent</artifactId>
+    <artifactId>powsybl</artifactId>
     <version>1</version>
     <packaging>pom</packaging>
 
-    <name>Powsybl Parent</name>
-    <description>Powsybl Parent</description>
+    <name>Powsybl</name>
+    <description>Powsybl</description>
     <url>https://www.powsybl.org/</url>
 
     <licenses>
@@ -36,7 +36,7 @@
 
     <modules>
         <module>powsybl-build-tools</module>
-        <module>powsybl-parent-java</module>
+        <module>powsybl-parent</module>
     </modules>
 
     <developers>
@@ -208,8 +208,8 @@
             <id>checks</id>
             <activation>
                 <property>
-                    <name>powsyblChecks</name>
-                    <value>!false</value>
+                    <name>powsybl.checks.skip</name>
+                    <value>!true</value>
                 </property>
             </activation>
             <build>

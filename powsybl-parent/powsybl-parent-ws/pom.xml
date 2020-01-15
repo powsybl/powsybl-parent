@@ -14,32 +14,30 @@
 
     <parent>
         <groupId>com.powsybl</groupId>
-        <artifactId>powsybl-parent-java</artifactId>
+        <artifactId>powsybl-parent</artifactId>
         <version>1</version>
     </parent>
     <groupId>com.powsybl</groupId>
     <artifactId>powsybl-parent-ws</artifactId>
     <packaging>pom</packaging>
 
-    <name>Powsybl Parent Web Service</name>
-    <description>Powsybl Parent Web Service</description>
+    <name>Powsybl Parent WS</name>
+    <description>Powsybl Parent for Web Services</description>
 
-    <!-- Keep this in sync manually with powsybl-parent-all -->
     <properties>
-        <maven.spring-boot.version>2.2.2.RELEASE</maven.spring-boot.version>
-        <!-- copied from spring-boot-starter-parent -->
-        <resource.delimiter>@</resource.delimiter>
-
         <jib.version>1.8.0</jib.version>
         <jib.from.image.type>openjdk</jib.from.image.type> <!-- openjdk, distroless, etc. -->
         <jib.from.image.classifier></jib.from.image.classifier> <!-- for openjdk, empty, -alpine, etc. -->
         <jib.from.image>${jib.from.image.type}:${java.version}${jib.from.image.classifier}</jib.from.image>
 
+        <maven.spring-boot.version>2.2.2.RELEASE</maven.spring-boot.version>
+        <!-- copied from spring-boot-starter-parent -->
+        <resource.delimiter>@</resource.delimiter>
     </properties>
 
-    <!-- Keep this in sync manually with powsybl-parent-all -->
-    <!-- copied from spring-boot-starter-parent -->
+
     <build>
+        <!-- copied from spring-boot-starter-parent -->
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -59,8 +57,20 @@
                 </excludes>
             </resource>
         </resources>
+
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jib.version}</version>
+                    <configuration>
+                        <from>
+                            <image>${jib.from.image}</image>
+                        </from>
+                    </configuration>
+                </plugin>
+
                 <!-- copied from spring-boot-starter-parent -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -95,28 +105,16 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>com.google.cloud.tools</groupId>
-                    <artifactId>jib-maven-plugin</artifactId>
-                    <version>${jib.version}</version>
-                    <configuration>
-                        <from>
-                            <image>${jib.from.image}</image>
-                        </from>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
 
     <profiles>
-        <!-- Keep this in sync manually with powsybl-parent-all -->
         <profile>
-            <id>buildspringboot</id>
             <activation>
                 <property>
-                    <name>powsyblSpringBootExec</name>
-                    <value>!false</value>
+                    <name>powsybl.spring-boot.skip</name>
+                    <value>!true</value>
                 </property>
             </activation>
             <build>
@@ -129,12 +127,11 @@
             </build>
         </profile>
 
-        <!-- Keep this in sync manually with powsybl-parent-all -->
         <profile>
             <id>jibinstalldocker</id>
             <activation>
                 <property>
-                    <name>powsyblInstallDocker</name>
+                    <name>powsybl.docker-install</name>
                     <value>true</value>
                 </property>
             </activation>
@@ -158,12 +155,11 @@
             </build>
         </profile>
 
-        <!-- Keep this in sync manually with powsybl-parent-all -->
         <profile>
-            <id>deploydocker</id>
+            <id>jibdeploydocker</id>
             <activation>
                 <property>
-                    <name>powsyblDeployDocker</name>
+                    <name>powsybl.docker-deploy</name>
                     <value>true</value>
                 </property>
             </activation>
@@ -175,7 +171,7 @@
                         <artifactId>jib-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>jibBuild</id>
+                                <id>jibDockerDeploy</id>
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>build</goal>

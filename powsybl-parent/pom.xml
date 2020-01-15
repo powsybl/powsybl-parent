@@ -14,18 +14,17 @@
 
     <parent>
         <groupId>com.powsybl</groupId>
-        <artifactId>powsybl-parent</artifactId>
+        <artifactId>powsybl</artifactId>
         <version>1</version>
     </parent>
     <groupId>com.powsybl</groupId>
-    <artifactId>powsybl-parent-java</artifactId>
+    <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Powsybl Parent Java</name>
-    <description>Powsybl Parent Java</description>
+    <name>Powsybl Parent</name>
+    <description>Powsybl Parent</description>
 
     <modules>
-        <module>powsybl-parent-all</module>
         <module>powsybl-parent-ws</module>
     </modules>
 
@@ -210,8 +209,8 @@
             <id>checks</id>
             <activation>
                 <property>
-                    <name>powsyblchecks</name>
-                    <value>!false</value>
+                    <name>powsybl.checks.skip</name>
+                    <value>!true</value>
                 </property>
             </activation>
             <build>
