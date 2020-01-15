@@ -25,7 +25,7 @@
     <description>Powsybl Parent for Web Services</description>
 
     <properties>
-        <jib.version>1.8.0</jib.version>
+        <maven.jib.version>1.8.0</maven.jib.version>
         <jib.from.image.type>openjdk</jib.from.image.type> <!-- openjdk, distroless, etc. -->
         <jib.from.image.classifier></jib.from.image.classifier> <!-- for openjdk, empty, -alpine, etc. -->
         <jib.from.image>${jib.from.image.type}:${java.version}${jib.from.image.classifier}</jib.from.image>
@@ -33,6 +33,7 @@
         <maven.spring-boot.version>2.2.2.RELEASE</maven.spring-boot.version>
         <!-- copied from spring-boot-starter-parent -->
         <resource.delimiter>@</resource.delimiter>
+        <maven.git-commit-id.version>3.0.1</maven.git-commit-id.version>
     </properties>
 
 
@@ -63,7 +64,7 @@
                 <plugin>
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
-                    <version>${jib.version}</version>
+                    <version>${maven.jib.version}</version>
                     <configuration>
                         <from>
                             <image>${jib.from.image}</image>
@@ -94,16 +95,33 @@
                     <version>${maven.spring-boot.version}</version>
                     <executions>
                         <execution>
-                            <id>repackage</id>
+                            <id>build-info</id>
                             <goals>
-                                <goal>repackage</goal>
+                                <goal>build-info</goal>
                             </goals>
-                            <configuration>
-                                <attach>false</attach>
-                                <classifier>exec</classifier>
-                            </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <!-- copied from spring-boot-starter-parent -->
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${maven.git-commit-id.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>revision</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <offline>true</offline>
+                        <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
+                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                        <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -118,12 +136,26 @@
                 </property>
             </activation>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>repackage</id>
+                                    <goals>
+                                        <goal>repackage</goal>
+                                    </goals>
+                                    <configuration>
+                                        <attach>false</attach>
+                                        <classifier>exec</classifier>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
 
@@ -137,21 +169,23 @@
             </activation>
 
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>jibDockerPackage</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>buildTar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.google.cloud.tools</groupId>
+                            <artifactId>jib-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>jibDockerPackage</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>buildTar</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
 
@@ -165,21 +199,23 @@
             </activation>
 
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>jibDockerBuild</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.google.cloud.tools</groupId>
+                            <artifactId>jib-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>jibDockerBuild</id>
+                                    <phase>install</phase>
+                                    <goals>
+                                        <goal>dockerBuild</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
 
@@ -193,21 +229,23 @@
             </activation>
 
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>jibDockerDeploy</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.google.cloud.tools</groupId>
+                            <artifactId>jib-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>jibDockerDeploy</id>
+                                    <phase>deploy</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>
