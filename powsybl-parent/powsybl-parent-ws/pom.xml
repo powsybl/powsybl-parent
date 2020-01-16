@@ -26,16 +26,16 @@
 
     <properties>
         <maven.jib.version>1.8.0</maven.jib.version>
+        <maven.spring-boot.version>2.2.2.RELEASE</maven.spring-boot.version>
+        <maven.git-commit-id.version>3.0.1</maven.git-commit-id.version>
+
         <jib.from.image.type>openjdk</jib.from.image.type> <!-- openjdk, distroless, etc. -->
         <jib.from.image.classifier></jib.from.image.classifier> <!-- for openjdk, empty, -alpine, etc. -->
         <jib.from.image>${jib.from.image.type}:${java.version}${jib.from.image.classifier}</jib.from.image>
 
-        <maven.spring-boot.version>2.2.2.RELEASE</maven.spring-boot.version>
         <!-- copied from spring-boot-starter-parent -->
-        <resource.delimiter>@</resource.delimiter>
-        <maven.git-commit-id.version>3.0.1</maven.git-commit-id.version>
-
-        <compiler.parameters>true</compiler.parameters>
+        <maven.resource.delimiter>@</maven.resource.delimiter>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
 
         <git-id.offline>true</git-id.offline>
         <git-id.failOnNoGitDirectory>false</git-id.failOnNoGitDirectory>
@@ -82,7 +82,7 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <parameters>${compiler.parameters}</parameters>
+                        <parameters>${maven.compiler.parameters}</parameters>
                     </configuration>
                 </plugin>
                 <!-- copied from spring-boot-starter-parent -->
@@ -90,7 +90,7 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <configuration>
                         <delimiters>
-                            <delimiter>${resource.delimiter}</delimiter>
+                            <delimiter>${maven.resource.delimiter}</delimiter>
                         </delimiters>
                         <useDefaultDelimiters>false</useDefaultDelimiters>
                     </configuration>
