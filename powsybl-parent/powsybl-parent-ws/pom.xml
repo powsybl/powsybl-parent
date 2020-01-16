@@ -163,7 +163,7 @@
             <id>jibpackagedocker</id>
             <activation>
                 <property>
-                    <name>powsybl.docker-package</name>
+                    <name>powsybl.docker.package</name>
                     <value>true</value>
                 </property>
             </activation>
@@ -193,7 +193,7 @@
             <id>jibinstalldocker</id>
             <activation>
                 <property>
-                    <name>powsybl.docker-install</name>
+                    <name>powsybl.docker.install</name>
                     <value>true</value>
                 </property>
             </activation>
@@ -223,7 +223,7 @@
             <id>jibdeploydocker</id>
             <activation>
                 <property>
-                    <name>powsybl.docker-deploy</name>
+                    <name>powsybl.docker.deploy</name>
                     <value>true</value>
                 </property>
             </activation>
