@@ -34,6 +34,12 @@
         <!-- copied from spring-boot-starter-parent -->
         <resource.delimiter>@</resource.delimiter>
         <maven.git-commit-id.version>3.0.1</maven.git-commit-id.version>
+
+        <compiler.parameters>true</compiler.parameters>
+
+        <git-id.offline>true</git-id.offline>
+        <git-id.failOnNoGitDirectory>false</git-id.failOnNoGitDirectory>
+        <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
     </properties>
 
 
@@ -76,7 +82,7 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <parameters>true</parameters>
+                        <parameters>${compiler.parameters}</parameters>
                     </configuration>
                 </plugin>
                 <!-- copied from spring-boot-starter-parent -->
@@ -115,12 +121,12 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <offline>true</offline>
+                        <offline>${git-id.offline}</offline>
                         <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
                         <generateGitPropertiesFile>true</generateGitPropertiesFile>
                         <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                        <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+                        <failOnNoGitDirectory>${git-id.failOnNoGitDirectory}</failOnNoGitDirectory>
+                        <failOnUnableToExtractRepoInfo>${git-id.failOnUnableToExtractRepoInfo}</failOnUnableToExtractRepoInfo>
                     </configuration>
                 </plugin>
             </plugins>
