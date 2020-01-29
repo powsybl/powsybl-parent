@@ -261,14 +261,6 @@
                                     <goal>jar</goal>
                                 </goals>
                             </execution>
-                            <execution>
-                                <id>javadoc-aggregate-jar</id>
-                                <phase>package</phase>
-                                <inherited>false</inherited>
-                                <goals>
-                                    <goal>aggregate-jar</goal>
-                                </goals>
-                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
