@@ -35,13 +35,34 @@
         <maven.buildnumber.version>1.4</maven.buildnumber.version>
         <maven.checkstyle.version>3.1.0</maven.checkstyle.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.gmavenplus.version>1.6.1</maven.gmavenplus.version>
+        <maven.gmavenplus.version>1.8.1</maven.gmavenplus.version>
+        <!--
+            For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
+            For projects which don't use groovy at all, this means the pluginmanagement will hold an invalid <version> definition
+            (the literal string '${groovy.version}' instead of a valid version like '2.5.8') but this doesn't break the build.
+            For projects which do use groovy (ie at least one submodule declares gmavenplus in their <build><plugins> element)
+            then the build will break until either groovy.version or maven.groovydoc.version is set. It will break not just for the release profile
+            so projects can detect errors early and fix their groovydoc configuration.
+        -->
+        <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
         <maven.jacoco.version>0.8.2</maven.jacoco.version>
         <maven.javadoc.version>3.1.1</maven.javadoc.version>
         <maven.plugin.version>3.6.0</maven.plugin.version>
         <maven.shade.version>3.1.1</maven.shade.version>
         <maven.source.version>3.0.1</maven.source.version>
         <maven.templating.version>1.0.0</maven.templating.version>
+
+        <!--
+            by default don't override the javadocs. if you want to override the javadocs,
+            set the following property in the project
+            <properties>
+                <groovydoc.classifier>javadoc</groovydoc.classifier>
+                <groovydoc.groovyDocJavaSources>true</groovydoc.groovyDocJavaSources>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+            </properties>
+        -->
+        <groovydoc.classifier>groovydoc</groovydoc.classifier>
+        <groovydoc.groovyDocJavaSources>false</groovydoc.groovyDocJavaSources>
 
         <sonar.exclusions>
             **/generated/**/*
@@ -278,6 +299,35 @@
                         </executions>
                     </plugin>
                 </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.gmavenplus</groupId>
+                            <artifactId>gmavenplus-plugin</artifactId>
+                            <version>${maven.gmavenplus.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>groovydoc-jar</id>
+                                    <goals>
+                                        <goal>groovydoc-jar</goal>
+                                    </goals>
+                                    <configuration>
+                                        <includeClasspath>PROJECT_AND_PLUGIN</includeClasspath>
+                                        <classifier>${groovydoc.classifier}</classifier>
+                                        <groovyDocJavaSources>${groovydoc.groovyDocJavaSources}</groovyDocJavaSources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.codehaus.groovy</groupId>
+                                    <artifactId>groovy-groovydoc</artifactId>
+                                    <version>${maven.groovydoc.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>
