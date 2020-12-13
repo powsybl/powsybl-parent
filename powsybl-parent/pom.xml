@@ -17,7 +17,6 @@
         <artifactId>powsybl</artifactId>
         <version>4-SNAPSHOT</version>
     </parent>
-    <groupId>com.powsybl</groupId>
     <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
 
@@ -30,12 +29,12 @@
 
     <properties>
         <!-- javac's source and target arguments accept both 1.8 and 8, but release accepts only 8 -->
-        <java.version>8</java.version>
+        <java.version>11</java.version>
 
         <maven.buildnumber.version>1.4</maven.buildnumber.version>
         <maven.checkstyle.version>3.1.0</maven.checkstyle.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.gmavenplus.version>1.8.1</maven.gmavenplus.version>
+        <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
         <!--
             For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
             For projects which don't use groovy at all, this means the pluginmanagement will hold an invalid <version> definition
@@ -46,7 +45,7 @@
         -->
         <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
         <maven.jacoco.version>0.8.2</maven.jacoco.version>
-        <maven.javadoc.version>3.1.1</maven.javadoc.version>
+        <maven.javadoc.version>3.2.0</maven.javadoc.version>
         <maven.plugin.version>3.6.0</maven.plugin.version>
         <maven.shade.version>3.1.1</maven.shade.version>
         <maven.source.version>3.0.1</maven.source.version>
@@ -94,8 +93,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <release>${java.version}</release>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -137,6 +135,8 @@
                     <configuration>
                         <additionalOptions>-Xdoclint:none</additionalOptions>
                         <docfilessubdirs>true</docfilessubdirs>
+                        <!-- Seems to be necessary when running from IntelliJ but not from command line -->
+                        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -173,27 +173,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>java9+</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <build>
-                <!-- This is merged in the main configuration but plexus-compiler-javac is smart enough
-                  to ignore the source and target arguments when the release argument is supplied. -->
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <configuration>
-                                <release>${java.version}</release>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
         <profile>
             <id>jacoco</id>
             <build>
