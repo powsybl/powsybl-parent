@@ -249,7 +249,7 @@
                                     <configLocation>powsybl-build-tools/checkstyle.xml</configLocation>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
-                                    <excludes>**/generated/**/*</excludes>
+                                    <excludes>**/generated/**/*,**/module-info.java</excludes>
                                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                                 </configuration>
                             </execution>
