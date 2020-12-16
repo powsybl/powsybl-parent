@@ -17,7 +17,7 @@
         <artifactId>powsybl</artifactId>
         <version>4-SNAPSHOT</version>
     </parent>
-    <groupId>com.powsybl</groupId>
+
     <artifactId>powsybl-build-tools</artifactId>
 
     <name>Powsybl Build Tools</name>
