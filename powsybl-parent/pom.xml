@@ -17,7 +17,6 @@
         <artifactId>powsybl</artifactId>
         <version>4-SNAPSHOT</version>
     </parent>
-    <groupId>com.powsybl</groupId>
     <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
 
@@ -33,9 +32,9 @@
         <java.version>8</java.version>
 
         <maven.buildnumber.version>1.4</maven.buildnumber.version>
-        <maven.checkstyle.version>3.1.0</maven.checkstyle.version>
+        <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.gmavenplus.version>1.8.1</maven.gmavenplus.version>
+        <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
         <!--
             For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
             For projects which don't use groovy at all, this means the pluginmanagement will hold an invalid <version> definition
@@ -45,11 +44,11 @@
             so projects can detect errors early and fix their groovydoc configuration.
         -->
         <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
-        <maven.jacoco.version>0.8.2</maven.jacoco.version>
-        <maven.javadoc.version>3.1.1</maven.javadoc.version>
+        <maven.jacoco.version>0.8.6</maven.jacoco.version>
+        <maven.javadoc.version>3.2.0</maven.javadoc.version>
         <maven.plugin.version>3.6.0</maven.plugin.version>
-        <maven.shade.version>3.1.1</maven.shade.version>
-        <maven.source.version>3.0.1</maven.source.version>
+        <maven.shade.version>3.2.4</maven.shade.version>
+        <maven.source.version>3.2.1</maven.source.version>
         <maven.templating.version>1.0.0</maven.templating.version>
 
         <!--
@@ -250,7 +249,7 @@
                                     <configLocation>powsybl-build-tools/checkstyle.xml</configLocation>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
-                                    <excludes>**/generated/**/*</excludes>
+                                    <excludes>**/generated/**/*,**/module-info.java</excludes>
                                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                                 </configuration>
                             </execution>
