@@ -64,6 +64,71 @@
             </resource>
         </resources>
 
+        <!--
+          by default jib uses artifactId:artifactVersion for its to.image.name
+          For example, it would use "powsybl-case-server". We want "powsybl/case-server".
+          we also want to omit the version to use latest for snapshots but not for releases
+        -->
+        <!-- Note: this is executed even for this pom but does nothing, the value is not inherited by child projects. so we don't care. -->
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                    <goals>
+                        <goal>bsh-property</goal>
+                    </goals>
+                    <configuration>
+                        <properties>
+                            <property>jib.to.image</property>
+                        </properties>
+                        <source>
+String useJibDefaultName =
+    session.getUserProperties().getProperty("powsybl.docker.useJibDefaultName",
+    project.getProperties().getProperty("powsybl.docker.useJibDefaultName",
+    "false"));
+String image =
+    session.getUserProperties().getProperty("image",
+    project.getProperties().getProperty("image"));
+String jibtoimage =
+    session.getUserProperties().getProperty("jib.to.image",
+    project.getProperties().getProperty("jib.to.image"));
+String finalName;
+if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage) {
+    String name;
+    String keepArtifactName =
+        session.getUserProperties().getProperty("powsybl.docker.keepArtifactName",
+        project.getProperties().getProperty("powsybl.docker.keepArtifactName",
+        "false"));
+    if ("false".equals(keepArtifactName)) {
+        name = project.artifactId.replaceFirst("-","/");
+    } else {
+        name = project.artifactId; //the default
+    }
+    String keepSnapshotVersion =
+        session.getUserProperties().getProperty("powsybl.docker.keepSnapshotVersion",
+        project.getProperties().getProperty("powsybl.docker.keepSnapshotVersion",
+        "false"));
+    if (!"false".equals(keepSnapshotVersion) @or !project.version.endsWith("-SNAPSHOT")) {
+        name = name + ":" + project.version;
+    }
+    print("Setting jib.to.image to " + name);
+    finalName = name;
+} else {
+    // we have to set this to something otherwise we get an exception
+    print("Not setting jib.to.image because powsybl.docker.useJibDefaultName or jib.to.image or image is set.");
+    finalName = jibtoimage;
+}
+jib.to.image = finalName;
+                        </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+
         <pluginManagement>
             <plugins>
                 <plugin>
