@@ -28,9 +28,7 @@
         <maven.spring-boot.version>2.2.9.RELEASE</maven.spring-boot.version>
         <maven.git-commit-id.version>4.0.3</maven.git-commit-id.version>
 
-        <jib.from.image.type>openjdk</jib.from.image.type> <!-- openjdk, distroless, etc. -->
-        <jib.from.image.classifier></jib.from.image.classifier> <!-- for openjdk, empty, -alpine, etc. -->
-        <jib.from.image>${jib.from.image.type}:${java.version}${jib.from.image.classifier}</jib.from.image>
+        <jib.from.image>powsybl/java:1.0.0</jib.from.image>
 
         <!-- copied from spring-boot-starter-parent -->
         <maven.resource.delimiter>@</maven.resource.delimiter>
