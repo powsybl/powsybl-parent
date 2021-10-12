@@ -31,7 +31,7 @@
     <scm>
         <connection>scm:git:https://github.com/powsybl/powsybl-parent.git</connection>
         <developerConnection>scm:git:https://github.com/powsybl/powsybl-parent.git</developerConnection>
-        <url>https://github.com/powsybl/powsybl-parent/tree/master/</url>
+        <url>https://github.com/powsybl/powsybl-parent/tree/main/</url>
     </scm>
 
     <modules>
