@@ -46,7 +46,7 @@
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
-        <liquibase.outputFile>changelog.postgresql.sql</liquibase.outputFile>
+        <liquibase.outputFile>${project.build.directory}/changelog.postgresql.sql</liquibase.outputFile>
         <liquibase.dbUrl>hibernate:spring:${liquibase-hibernate-path}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</liquibase.dbUrl>
         <liquibase.driver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.driver>
     </properties>
