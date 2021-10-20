@@ -40,15 +40,18 @@
 
         <!-- for liquibase plugin -->
         <liquibase-core.version>3.10.3</liquibase-core.version>
-        <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version>
+        <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version>         <!-- the same as liquibase-core does not exists -->
         <h2.version>1.4.200</h2.version>
         <spring-beans.version>5.3.8</spring-beans.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.outputFile>${project.build.directory}/changelog.postgresql.sql</liquibase.outputFile>
-        <liquibase.dbUrl>hibernate:spring:${liquibase-hibernate-path}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</liquibase.dbUrl>
-        <liquibase.driver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.driver>
+        <liquibase.username>sa</liquibase.username>
+        <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
+        <liquibase.databaseUrl>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</liquibase.databaseUrl>
+        <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-path}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</liquibase.referenceDatabaseUrl>
+        <liquibase.referenceDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.referenceDriver>
     </properties>
 
 
@@ -154,24 +157,12 @@ jib.to.image = finalName;
                     <outputChangeLogFile>${liquibase.outputFile}</outputChangeLogFile>
                     <logging>info</logging>
                     <includeArtifact>true</includeArtifact>
-                    <referenceUrl>${liquibase.dbUrl}</referenceUrl>
-                    <referenceDriver>${liquibase.dbDriver}</referenceDriver>
-                    <url>${liquibase.dbUrl}</url>
-                    <driver>${liquibase.dbDriver}</driver>
+                    <referenceUrl>${liquibase.referenceDatabaseUrl}</referenceUrl>
+                    <referenceDriver>${liquibase.referenceDatabaseDriver}</referenceDriver>
+                    <username>${liquibase.username}</username>
+                    <url>${liquibase.databaseUrl}</url>
+                    <driver>${liquibase.databaseDriver}</driver>
                 </configuration>
-                <executions>
-                    <!-- configuration to generate changeset from existing configuration -->
-                    <execution>
-                        <id>dummyDB</id>
-                        <configuration>
-                            <!-- add database_to_lower to generate lowercase instructions -->
-                            <url>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</url>
-                            <username>sa</username>
-                            <password></password>
-                            <driver>org.h2.Driver</driver>
-                        </configuration>
-                    </execution>
-                </executions>
                 <!-- Liquibase dependencies-->
                 <dependencies>
                     <dependency>
