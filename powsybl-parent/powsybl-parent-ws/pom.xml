@@ -49,6 +49,8 @@
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.outputFile>changelog.postgresql.sql</liquibase.outputFile>
+        <liquibase.dbUrl></liquibase.dbUrl>
+        <liquibase.driver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.driver>
     </properties>
 
 
@@ -149,12 +151,15 @@ jib.to.image = finalName;
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase-core.version}</version>
                 <configuration>
-                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
                     <outputChangeLogFile>${liquibase.outputFile}</outputChangeLogFile>
                     <logging>info</logging>
                     <includeArtifact>true</includeArtifact>
+                    <referenceUrl>${liquibase.dbUrl}</referenceUrl>
+                    <referenceDriver>${liquibase.dbDriver}</referenceDriver>
+                    <url>${liquibase.dbUrl}</url>
+                    <driver>${liquibase.dbDriver}</driver>
                 </configuration>
                 <executions>
                     <!-- configuration to generate changeset from existing configuration -->
