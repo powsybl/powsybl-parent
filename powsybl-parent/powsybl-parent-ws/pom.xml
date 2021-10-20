@@ -163,11 +163,6 @@ jib.to.image = finalName;
                 <!-- Liquibase dependencies-->
                 <dependencies>
                     <dependency>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-core</artifactId>
-                        <version>${liquibase-core.version}</version>
-                    </dependency>
-                    <dependency>
                         <groupId>org.liquibase.ext</groupId>
                         <artifactId>liquibase-hibernate5</artifactId>
                         <version>${liquibase-hibernate.version}</version>
