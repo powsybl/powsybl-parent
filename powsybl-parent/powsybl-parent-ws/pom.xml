@@ -41,15 +41,13 @@
         <!-- for liquibase plugin -->
         <liquibase-core.version>3.10.3</liquibase-core.version>
         <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version>
-        <spring-boot-starter-data-jpa.version>2.4.7</spring-boot-starter-data-jpa.version>
         <h2.version>1.4.200</h2.version>
         <spring-beans.version>5.3.8</spring-beans.version>
-        <spring-data-jpa.version>2.4.7</spring-data-jpa.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.outputFile>changelog.postgresql.sql</liquibase.outputFile>
-        <liquibase.dbUrl></liquibase.dbUrl>
+        <liquibase.dbUrl>hibernate:spring:${liquibase-hibernate-path}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</liquibase.dbUrl>
         <liquibase.driver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.driver>
     </properties>
 
@@ -189,7 +187,7 @@ jib.to.image = finalName;
                     <dependency>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-starter-data-jpa</artifactId>
-                        <version>${spring-boot-starter-data-jpa.version}</version>
+                        <version>${maven.spring-boot.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>javax.validation</groupId>
@@ -214,7 +212,7 @@ jib.to.image = finalName;
                     <dependency>
                         <groupId>org.springframework.data</groupId>
                         <artifactId>spring-data-jpa</artifactId>
-                        <version>${spring-data-jpa.version}</version>
+                        <version>${maven.spring-boot.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
