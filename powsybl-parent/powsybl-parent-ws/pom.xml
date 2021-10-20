@@ -41,9 +41,6 @@
         <!-- for liquibase plugin -->
         <liquibase-core.version>3.10.3</liquibase-core.version>
         <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version>         <!-- the same as liquibase-core does not exists -->
-        <h2.version>1.4.200</h2.version>
-        <spring-beans.version>5.3.8</spring-beans.version>
-        <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.outputFile>${project.build.directory}/changelog.postgresql.sql</liquibase.outputFile>
@@ -184,26 +181,6 @@ jib.to.image = finalName;
                         <groupId>javax.validation</groupId>
                         <artifactId>validation-api</artifactId>
                         <version>${validation-api.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>javax.xml.bind</groupId>
-                        <artifactId>jaxb-api</artifactId>
-                        <version>${jaxb-api.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>${h2.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-beans</artifactId>
-                        <version>${spring-beans.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework.data</groupId>
-                        <artifactId>spring-data-jpa</artifactId>
-                        <version>${maven.spring-boot.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
