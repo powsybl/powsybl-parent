@@ -40,10 +40,9 @@
 
         <!-- for liquibase plugin -->
         <liquibase-core.version>3.10.3</liquibase-core.version>
-        <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version>         <!-- the same as liquibase-core does not exists -->
+        <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version> <!-- the same as liquibase-core does not exists 3.10.2 is the closest -->
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
-        <liquibase.outputFile>${project.build.directory}/changelog.postgresql.sql</liquibase.outputFile>
         <liquibase.username>sa</liquibase.username>
         <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
         <liquibase.databaseUrl>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</liquibase.databaseUrl>
