@@ -22,7 +22,10 @@ By participating, you are expected to uphold this code. Please report unacceptab
 
 ## PowSyBl vs PowSyBl Parent
 
-This contains parent poms for powsybl projects. The parent poms will add standard powsybl build possibilities. For normal projects, use powsybl-parent. It provides:
+This contains parent poms for powsybl projects. The parent poms will add standard powsybl build possibilities. 
+
+### Plain java projects 
+For normal projects, use powsybl-parent. It provides:
 
 - default values for the project url, the license, the source encoding, the developpers
 - versions of maven plugins used by our build system
@@ -32,21 +35,27 @@ This contains parent poms for powsybl projects. The parent poms will add standar
 - a -Pjacoco enabling jacoco
 - PluginManagement for various plugins, this means that they are enabled only if you repeat them in the <build><plugins> section of your pom : maven-templating-plugin (filter-src), maven-failsafe-plugin (integration-test, verify), maven-plugin-plugin (process-class, utilisé par itools-packager uniquement..), maven-shade-plugin
 
+### WebService java projects
 Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 - spring-boot-maven-plugin and jib-maven-plugin and git-commit-id-plugin versions
 - pluginmanagement for these plugins that you must include in your spring-boot module
 - automatic spring fat-jar generation (can be disabled with -Dpowsybl.spring-boot.skip=true)
-- profiles for generating docker images that can be enabled on the command line, bound to their respective maven phase:
-  - -Dpowsybl.docker.package : build a .tar file in target containing the image
-  - -Dpowsybl.docker.install : install the image to the docker daemon (requires a docker daemon). This has the advantage of not storing the base image everytime and saves a lot of disk space (hundreds of MBs depending on the image)
-  - -Dpowsybl.docker.deploy : deploy the docker image to a docker registry
-  - default configuration mimicking spring-boot-starter-parent for default plugins (maven-compiler-plugin, maven-resource-plugin)
-- default configuration of liquibase-maven-plugin that works with jpa annotations (using hibernate). You need to set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities 
-  - the most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.   
+- profiles for generating docker images that can be enabled on the command line, bound to their respective maven phase: [docker usage](#docker-usage) 
+- default configuration of liquibase-maven-plugin that works with jpa annotations (using hibernate): [liquibase usage](#liquibase-usage) 
+
+#### Docker usage
+- -Dpowsybl.docker.package : build a .tar file in target containing the image
+- -Dpowsybl.docker.install : install the image to the docker daemon (requires a docker daemon). This has the advantage of not storing the base image everytime and saves a lot of disk space (hundreds of MBs depending on the image)
+- -Dpowsybl.docker.deploy : deploy the docker image to a docker registry
+- default configuration mimicking spring-boot-starter-parent for default plugins (maven-compiler-plugin, maven-resource-plugin)
+
+#### Liquibase usage
+To use liquibase, you must first set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
+- the most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
   mvn compile liquibase:dropAll liquibase:update liquibase:diff
   ```
-  - another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is): 
+- another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
   ```
   mvn compile liquibase:dropAll liquibase:diff -Dliquibase-diff.outputFile=out.DATABASE_TYPE.sql
   ```
