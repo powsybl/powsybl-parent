@@ -47,6 +47,7 @@
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelogs/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
+        <liquibase.outputFile>changelog.postgresql.sql</liquibase.outputFile>
     </properties>
 
 
@@ -150,6 +151,7 @@ jib.to.image = finalName;
                     <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
+                    <outputChangeLogFile>${liquibase.outputFile}</outputChangeLogFile>
                     <logging>info</logging>
                     <includeArtifact>true</includeArtifact>
                 </configuration>
