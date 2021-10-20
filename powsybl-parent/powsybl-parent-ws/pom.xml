@@ -43,9 +43,10 @@
         <spring-boot-starter-data-jpa.version>2.4.7</spring-boot-starter-data-jpa.version>
         <h2.version>1.4.200</h2.version>
         <spring-beans.version>5.3.8</spring-beans.version>
-        <spring-data-jpa.version>2.4.9</spring-data-jpa.version>
+        <spring-data-jpa.version>2.4.7</spring-data-jpa.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
+        <liquibase-diff.outputFile>src/main/resources/db/changelogs/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
     </properties>
 
 
@@ -147,8 +148,8 @@ jib.to.image = finalName;
                 <version>${liquibase-core.version}</version>
                 <configuration>
                     <propertyFile>src/main/resources/liquibase.properties</propertyFile>
-                    <changeLogFile>src/main/resources/db/init-db.xml</changeLogFile>
-                    <diffChangeLogFile>src/main/resources/db/changelogs/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
                     <logging>info</logging>
                     <includeArtifact>true</includeArtifact>
                 </configuration>
