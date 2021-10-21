@@ -50,7 +50,7 @@ Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 - default configuration mimicking spring-boot-starter-parent for default plugins (maven-compiler-plugin, maven-resource-plugin)
 
 #### Liquibase usage
-To use liquibase, you must first set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities, and the build number property corresponding to the version of your application
+To use liquibase, you must first set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
 - the most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
   mvn compile liquibase:dropAll liquibase:update liquibase:diff
