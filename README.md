@@ -53,7 +53,7 @@ Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 To use liquibase, you must first set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
 - the most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
-  mvn compile liquibase:dropAll liquibase:update liquibase:diff
+  rm -f target/dummyDB ; mvn compile liquibase:update liquibase:diff
   ```
 - another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
   ```
