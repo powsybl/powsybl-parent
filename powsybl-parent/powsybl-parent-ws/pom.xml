@@ -30,6 +30,17 @@
 
         <jib.from.image>powsybl/java:1.0.0</jib.from.image>
 
+        <!--
+        SPRING_PROFILES_ACTIVE: remove extra profiles. This is used for example to remove the "local" profile
+        which allows running apps in an IDE and have it connect to localhost for its dependencies
+
+        SPRING_CONFIG_LOCATION: change the working dir from spring config location to /config. The working dir
+        is RW in /home, while the config is RO in /config. Keep the other spring default locations.
+
+        NOTE: using a single line without whitespace to avoid messing up the environment
+        -->
+        <jib.container.environment>SPRING_PROFILES_ACTIVE=default,SPRING_CONFIG_LOCATION=optional:classpath:/;optional:classpath:/config/;optional:file:/config/;optional:file:/config/*/</jib.container.environment>
+
         <!-- copied from spring-boot-starter-parent -->
         <maven.resource.delimiter>@</maven.resource.delimiter>
         <maven.compiler.parameters>true</maven.compiler.parameters>
