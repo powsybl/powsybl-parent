@@ -50,12 +50,31 @@ Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 - default configuration mimicking spring-boot-starter-parent for default plugins (maven-compiler-plugin, maven-resource-plugin)
 
 #### Liquibase usage
-To use liquibase, you must first set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
-- the most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
+To use liquibase, you must first:
+- set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
+- create a folder in src/main/resources/db/changelog/changesets, generated changesets will be written there.
+
+Then, you can do one of the following:
+##### Creating changesets
+The most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
-  rm -f target/dummyDB ; mvn compile liquibase:update liquibase:diff
+  mvn clean compile liquibase:update liquibase:diff
   ```
-- another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
+Note1: for the very first changeset in a projet, omit the "liquibase:update" part of the command line
+
+Note2: you must manually add the generated file to the listing in src/main/resources/db/changelog/db.changelog-master.yaml. It will look like this:
+```
+databaseChangeLog:
+  - include:
+      file: changesets/changelog_2021-03-21T11:37:57Z.xml
+      relativeToChangelogFile: true
+  - include:
+      file: changesets/changelog_2022-14-13T23:21:49Z.xml
+      relativeToChangelogFile: true
+  # ... more files
+```
+##### Inspecting the schema
+Another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
   ```
   mvn compile liquibase:dropAll liquibase:diff -Dliquibase-diff.outputFile=out.DATABASE_TYPE.sql
   ```
