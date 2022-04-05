@@ -25,7 +25,7 @@
 
     <properties>
         <maven.jib.version>2.7.0</maven.jib.version>
-        <maven.spring-boot.version>2.4.7</maven.spring-boot.version>
+        <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
         <maven.git-commit-id.version>4.0.3</maven.git-commit-id.version>
 
         <jib.from.image>powsybl/java:1.0.0</jib.from.image>
@@ -50,8 +50,8 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>3.10.3</liquibase-core.version>
-        <liquibase-hibernate.version>3.10.2</liquibase-hibernate.version> <!-- the same as liquibase-core does not exists 3.10.2 is the closest -->
+        <liquibase-core.version>4.5.0</liquibase-core.version>
+        <liquibase-hibernate.version>4.5.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
