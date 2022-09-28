@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl-parent</artifactId>
-        <version>6-SNAPSHOT</version>
+        <version>9-SNAPSHOT</version>
     </parent>
     <artifactId>powsybl-parent-ws</artifactId>
     <packaging>pom</packaging>
@@ -25,10 +25,21 @@
 
     <properties>
         <maven.jib.version>2.7.0</maven.jib.version>
-        <maven.spring-boot.version>2.4.7</maven.spring-boot.version>
+        <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
         <maven.git-commit-id.version>4.0.3</maven.git-commit-id.version>
 
         <jib.from.image>powsybl/java:1.0.0</jib.from.image>
+
+        <!--
+        SPRING_PROFILES_ACTIVE: remove extra profiles. This is used for example to remove the "local" profile
+        which allows running apps in an IDE and have it connect to localhost for its dependencies
+
+        SPRING_CONFIG_LOCATION: change the working dir from spring config location to /config. The working dir
+        is RW in /home, while the config is RO in /config. Keep the other spring default locations.
+
+        NOTE: using a single line without whitespace to avoid messing up the environment
+        -->
+        <jib.container.environment>SPRING_PROFILES_ACTIVE=default,SPRING_CONFIG_LOCATION=optional:classpath:/;optional:classpath:/config/;optional:file:/config/;optional:file:/config/*/</jib.container.environment>
 
         <!-- copied from spring-boot-starter-parent -->
         <maven.resource.delimiter>@</maven.resource.delimiter>
@@ -37,6 +48,18 @@
         <git-id.offline>true</git-id.offline>
         <git-id.failOnNoGitDirectory>false</git-id.failOnNoGitDirectory>
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
+
+        <!-- for liquibase plugin -->
+        <liquibase-core.version>4.5.0</liquibase-core.version>
+        <liquibase-hibernate.version>4.5.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
+        <liquibase.username>sa</liquibase.username>
+        <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
+        <liquibase.databaseUrl>jdbc:h2:./target/dummyDB</liquibase.databaseUrl>
+        <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</liquibase.referenceDatabaseUrl>
+        <liquibase.referenceDatabaseDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.referenceDatabaseDriver>
+        <liquibase-hibernate-package>PROPERTY_TO_BE_DEFINED_IN_PROJECTS</liquibase-hibernate-package>
     </properties>
 
 
@@ -132,6 +155,41 @@ jib.to.image = finalName;
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase-core.version}</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
+                    <logging>info</logging>
+                    <referenceUrl>${liquibase.referenceDatabaseUrl}</referenceUrl>
+                    <referenceDriver>${liquibase.referenceDatabaseDriver}</referenceDriver>
+                    <username>${liquibase.username}</username>
+                    <url>${liquibase.databaseUrl}</url>
+                    <driver>${liquibase.databaseDriver}</driver>
+                </configuration>
+                <!-- Liquibase dependencies-->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate5</artifactId>
+                        <version>${liquibase-hibernate.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <version>${maven.spring-boot.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                        <version>${validation-api.version}</version>
+                    </dependency>
+                </dependencies>
+
+            </plugin>
+
         </plugins>
 
 
