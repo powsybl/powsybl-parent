@@ -70,6 +70,7 @@
         <module name="WhitespaceAround">
             <property name="ignoreEnhancedForColon" value="false"/>
         </module>
+        <module name="SingleSpaceSeparator"/>
     </module>
     <module name="SuppressWarningsFilter"/>
 </module>
