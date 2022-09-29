@@ -14,7 +14,7 @@
 
     <groupId>com.powsybl</groupId>
     <artifactId>powsybl</artifactId>
-    <version>9-SNAPSHOT</version>
+    <version>10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Powsybl</name>
