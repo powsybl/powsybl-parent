@@ -58,7 +58,7 @@ Then, you can do one of the following:
 ##### Creating changesets
 The most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
-  mvn clean compile liquibase:update liquibase:diff
+  mvn clean compile liquibase:update liquibase:diff -Dpowsybl.liquibase.generate
   ```
 Note1: for the very first changeset in a projet, omit the "liquibase:update" part of the command line
 

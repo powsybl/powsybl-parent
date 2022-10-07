@@ -382,5 +382,17 @@ jib.to.image = finalName;
                 </pluginManagement>
             </build>
         </profile>
+        <profile>
+            <id>powsyblliquibase</id>
+            <activation>
+                <property>
+                    <name>powsybl.liquibase.generate</name>
+                    <value>!false</value>
+                </property>
+            </activation>
+            <properties>
+                <maven.build.timestamp.format>yyyyMMdd'T'HHmmssX</maven.build.timestamp.format>
+            </properties>
+        </profile>
     </profiles>
 </project>
