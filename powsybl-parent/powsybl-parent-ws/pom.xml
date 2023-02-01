@@ -255,6 +255,7 @@ jib.to.image = finalName;
                         <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
                         <failOnNoGitDirectory>${git-id.failOnNoGitDirectory}</failOnNoGitDirectory>
                         <failOnUnableToExtractRepoInfo>${git-id.failOnUnableToExtractRepoInfo}</failOnUnableToExtractRepoInfo>
+                        <gitDescribe><tags>true</tags></gitDescribe>
                     </configuration>
                 </plugin>
             </plugins>
