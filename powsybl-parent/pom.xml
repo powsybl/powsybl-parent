@@ -30,9 +30,9 @@
     <properties>
         <java.version>17</java.version>
 
-        <maven.buildnumber.version>1.4</maven.buildnumber.version>
-        <maven.checkstyle.version>3.3.0</maven.checkstyle.version>
-        <maven.failsafe.version>2.22.2</maven.failsafe.version>
+        <maven.buildnumber.version>3.1.0</maven.buildnumber.version>
+        <maven.checkstyle.version>3.2.2</maven.checkstyle.version>
+        <maven.failsafe.version>3.1.0</maven.failsafe.version>
         <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
         <!--
             For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
@@ -45,9 +45,14 @@
         <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
         <maven.jacoco.version>0.8.8</maven.jacoco.version>
         <maven.javadoc.version>3.2.0</maven.javadoc.version>
-        <maven.plugin.version>3.6.1</maven.plugin.version>
+        <maven.plugin.version>3.9.0</maven.plugin.version>
         <maven.shade.version>3.2.4</maven.shade.version>
         <maven.source.version>3.2.1</maven.source.version>
+        <!--
+            issue opened to fix the warnings from maven 3.9.2 ('Plugin should declare these Maven artifacts in `provided` scope') :
+            https://github.com/mojohaus/templating-maven-plugin/issues/54
+            no answer 2 weeks after initial post. Project abandoned ? To recheck later
+        -->
         <maven.templating.version>1.0.0</maven.templating.version>
 
         <!-- Some plugins have dependencies we need to add -->

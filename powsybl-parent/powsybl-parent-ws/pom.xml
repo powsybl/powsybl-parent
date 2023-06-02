@@ -24,9 +24,10 @@
     <description>Powsybl Parent for Web Services</description>
 
     <properties>
-        <maven.jib.version>2.8.0</maven.jib.version>
+        <!-- todo: Upgrade maven jib version to fix warning about provided scope when this is released https://github.com/GoogleContainerTools/jib/pull/4034 -->
+        <maven.jib.version>3.3.2</maven.jib.version>
         <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
-        <maven.git-commit-id.version>4.9.10</maven.git-commit-id.version>
+        <maven.git-commit-id.version>5.0.1</maven.git-commit-id.version>
 
         <jib.from.image>powsybl/java:2.0.0</jib.from.image>
 
@@ -50,8 +51,8 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>4.5.0</liquibase-core.version>
-        <liquibase-hibernate.version>4.5.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
+        <liquibase-core.version>4.22.0</liquibase-core.version>
+        <liquibase-hibernate.version>4.22.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
@@ -238,8 +239,8 @@ jib.to.image = finalName;
                 </plugin>
                 <!-- copied from spring-boot-starter-parent -->
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
                     <version>${maven.git-commit-id.version}</version>
                     <executions>
                         <execution>
