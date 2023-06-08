@@ -24,11 +24,11 @@
     <description>Powsybl Parent for Web Services</description>
 
     <properties>
-        <maven.jib.version>2.7.0</maven.jib.version>
+        <maven.jib.version>2.8.0</maven.jib.version>
         <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
         <maven.git-commit-id.version>4.0.3</maven.git-commit-id.version>
 
-        <jib.from.image>powsybl/java:1.0.0</jib.from.image>
+        <jib.from.image>powsybl/java:2.0.0</jib.from.image>
 
         <!--
         SPRING_PROFILES_ACTIVE: remove extra profiles. This is used for example to remove the "local" profile
