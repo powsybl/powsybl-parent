@@ -91,7 +91,7 @@
     </developers>
 
     <properties>
-        <maven.core.version>3.9.2</maven.core.version>
+        <maven.core.version>3.8.1</maven.core.version>
 
         <maven.antrun.version>3.0.0</maven.antrun.version>
         <maven.assembly.version>3.3.0</maven.assembly.version>
