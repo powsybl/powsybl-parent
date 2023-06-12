@@ -30,10 +30,10 @@
     <properties>
         <java.version>17</java.version>
 
-        <maven.buildnumber.version>3.1.0</maven.buildnumber.version>
-        <maven.checkstyle.version>3.2.2</maven.checkstyle.version>
-        <maven.failsafe.version>3.1.0</maven.failsafe.version>
-        <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
+        <maven.buildnumber.version>3.2.0</maven.buildnumber.version>
+        <maven.checkstyle.version>3.3.0</maven.checkstyle.version>
+        <maven.failsafe.version>3.1.2</maven.failsafe.version>
+        <maven.gmavenplus.version>3.0.0</maven.gmavenplus.version>
         <!--
             For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
             For projects which don't use groovy at all, this means the pluginmanagement will hold an invalid <version> definition
@@ -43,11 +43,11 @@
             so projects can detect errors early and fix their groovydoc configuration.
         -->
         <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
-        <maven.jacoco.version>0.8.8</maven.jacoco.version>
-        <maven.javadoc.version>3.2.0</maven.javadoc.version>
+        <maven.jacoco.version>0.8.10</maven.jacoco.version>
+        <maven.javadoc.version>3.5.0</maven.javadoc.version>
         <maven.plugin.version>3.9.0</maven.plugin.version>
-        <maven.shade.version>3.2.4</maven.shade.version>
-        <maven.source.version>3.2.1</maven.source.version>
+        <maven.shade.version>3.4.1</maven.shade.version>
+        <maven.source.version>3.3.0</maven.source.version>
         <!--
             issue opened to fix the warnings from maven 3.9.2 ('Plugin should declare these Maven artifacts in `provided` scope') :
             https://github.com/mojohaus/templating-maven-plugin/issues/54

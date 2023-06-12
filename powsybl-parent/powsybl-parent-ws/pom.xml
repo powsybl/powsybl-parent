@@ -27,7 +27,7 @@
         <!-- todo: Upgrade maven jib version to fix warning about provided scope when this is released https://github.com/GoogleContainerTools/jib/pull/4034 -->
         <maven.jib.version>3.3.2</maven.jib.version>
         <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
-        <maven.git-commit-id.version>5.0.1</maven.git-commit-id.version>
+        <maven.git-commit-id.version>6.0.0</maven.git-commit-id.version>
 
         <jib.from.image>powsybl/java:2.0.0</jib.from.image>
 
