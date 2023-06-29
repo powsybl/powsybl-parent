@@ -50,6 +50,9 @@
         <maven.source.version>3.2.1</maven.source.version>
         <maven.templating.version>1.0.0</maven.templating.version>
 
+        <!-- Some plugins have dependencies we need to add -->
+        <powsybl-build-tools.version>${parent.version}</powsybl-build-tools.version>
+
         <!--
             by default don't override the javadocs. if you want to override the javadocs,
             set the following property in the project
@@ -257,7 +260,7 @@
                           <dependency>
                             <groupId>com.powsybl</groupId>
                             <artifactId>powsybl-build-tools</artifactId>
-                            <version>12-SNAPSHOT</version>
+                            <version>${powsybl-build-tools.version}</version>
                           </dependency>
                         </dependencies>
                     </plugin>
@@ -350,6 +353,73 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>lombok-config</id>
+            <activation>
+                <!--<property>
+                    <name>powsybl.lombok.config</name>
+                    <value>true</value>
+                </property>-->
+                <file>
+                    <exists>lombok.config</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-copy-deps</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.powsybl</groupId>
+                                            <artifactId>powsybl-build-tools</artifactId>
+                                            <version>${powsybl-build-tools.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}/configs</outputDirectory>
+                                            <destFileName>powsybl-build-tools.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/deps</outputDirectory>
+                                    <overWriteReleases>false</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-verify-main-file</id>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <evaluateBeanshell>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").contains("import ./target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>-->
+                                            <!--<condition>java.nio.file.Files.lines(java.nio.file.Paths(".", "lombok.config")).anyMatch(s -> "import ./target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config".equals(s))</condition>-->
+                                        </evaluateBeanshell>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
