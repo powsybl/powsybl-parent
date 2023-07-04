@@ -26,7 +26,7 @@
     <properties>
         <maven.jib.version>2.8.0</maven.jib.version>
         <maven.spring-boot.version>2.6.6</maven.spring-boot.version>
-        <maven.git-commit-id.version>4.0.3</maven.git-commit-id.version>
+        <maven.git-commit-id.version>4.9.10</maven.git-commit-id.version>
 
         <jib.from.image>powsybl/java:2.0.0</jib.from.image>
 
