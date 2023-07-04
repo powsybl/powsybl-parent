@@ -357,14 +357,15 @@
         </profile>
         <profile>
             <id>lombok-config</id>
+            <!-- Add at the start of lombok.config this line: import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config -->
             <activation>
-                <!--<property>
+                <property>
                     <name>powsybl.lombok.config</name>
                     <value>true</value>
-                </property>-->
-                <file>
+                </property>
+                <!--<file>
                     <exists>lombok.config</exists>
-                </file>
+                </file>-->
             </activation>
             <build>
                 <plugins>
@@ -410,7 +411,7 @@
                                 <configuration>
                                     <rules>
                                         <evaluateBeanshell>
-                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").contains("import ./target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>-->
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").startWith("import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>
                                             <!--<condition>java.nio.file.Files.lines(java.nio.file.Paths(".", "lombok.config")).anyMatch(s -> "import ./target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config".equals(s))</condition>-->
                                         </evaluateBeanshell>
                                     </rules>
