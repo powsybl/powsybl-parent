@@ -33,6 +33,7 @@ For normal projects, use powsybl-parent. It provides:
 - a -Prelease profile that activates plugins to upload to ossrh (signing, javadoc, source jar)
 - a -Pjacoco enabling jacoco
 - PluginManagement for various plugins, this means that they are enabled only if you repeat them in the <build><plugins> section of your pom : maven-templating-plugin (filter-src), maven-failsafe-plugin (integration-test, verify), maven-plugin-plugin (process-class, utilisé par itools-packager uniquement..), maven-shade-plugin
+- a base lombok configuration to start with (activable with `-Plombok-config` or `-Dpowsybl.lombok.config=true`)
 
 ### WebService java projects
 Additionally, a powsybl-parent-ws using spring and jib is available. It provides
