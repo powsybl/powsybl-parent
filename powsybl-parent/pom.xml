@@ -404,18 +404,28 @@
                         <executions>
                             <execution>
                                 <id>lombok-verify-main-file</id>
-                                <phase>process-sources</phase>
+                                <phase>validate</phase>
                                 <goals>
                                     <goal>enforce</goal>
                                 </goals>
                                 <configuration>
                                     <rules>
+                                        <requireActiveProfile>
+                                            <profiles>lombok-config</profiles>
+                                        </requireActiveProfile>
+                                        <requireFilesExist>
+                                            <files>
+                                                <file>${project.basedir}/lombok.config</file>
+                                            </files>
+                                        </requireFilesExist>
                                         <evaluateBeanshell>
                                             <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").startWith("import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>
                                             <!--<condition>java.nio.file.Files.lines(java.nio.file.Paths(".", "lombok.config")).anyMatch(s -> "import ./target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config".equals(s))</condition>-->
+                                            <message>The lombok.config file must start with the line "import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config"</message>
                                         </evaluateBeanshell>
                                     </rules>
                                     <fail>true</fail>
+                                    <failFast>true</failFast>
                                 </configuration>
                             </execution>
                         </executions>
