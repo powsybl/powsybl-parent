@@ -395,6 +395,12 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <showWarnings>true</showWarnings><!--show lombok warning during compile-->
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
