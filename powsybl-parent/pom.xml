@@ -383,7 +383,7 @@
                                             <artifactId>powsybl-build-tools</artifactId>
                                             <version>${powsybl-build-tools.version}</version>
                                             <type>jar</type>
-                                            <overWrite>false</overWrite>
+                                            <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/configs</outputDirectory>
                                             <destFileName>powsybl-build-tools.jar</destFileName>
                                         </artifactItem>
