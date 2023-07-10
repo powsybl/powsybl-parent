@@ -358,7 +358,6 @@
 
         <profile>
             <id>lombok-config-copy</id>
-            <!-- Add at the start of lombok.config this line: import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config -->
             <activation>
                 <file>
                     <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
@@ -405,10 +404,10 @@
             </build>
         </profile>
         <profile>
-            <id>lombok-config-check</id>
+            <id>check-lombok</id>
             <activation>
                 <file>
-                    <exists>${basedir}/.mvn/lombok-config-check.marker</exists>
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists><!--active by default and disablable with '-P!...'-->
                 </file>
             </activation>
             <build>
@@ -433,9 +432,16 @@
                                             <files>
                                                 <file>${project.basedir}/lombok.config</file>
                                             </files>
+                                            <message>Missing file "lombok.config" in project. Please create it or disable check with "-P!check-lombok".</message>
+                                        </requireFilesExist>
+                                        <requireFilesExist>
+                                            <files>
+                                                <file>${project.build.directory}/configs/powsybl-build-tools.jar</file>
+                                            </files>
+                                            <message>Error: missing file "target/configs/powsybl-build-tools.jar" (copied by profile lombok-config-copy)...</message>
                                         </requireFilesExist>
                                         <evaluateBeanshell>
-                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").startWith("import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").startsWith("import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>
                                             <message>The lombok.config file must start with the line "import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config"</message>
                                         </evaluateBeanshell>
                                     </rules>
