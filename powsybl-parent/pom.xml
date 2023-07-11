@@ -51,7 +51,12 @@
         <maven.templating.version>1.0.0</maven.templating.version>
 
         <!-- Some plugins have dependencies we need to add -->
-        <powsybl-build-tools.version>${project.parent.version}</powsybl-build-tools.version>
+        <!--
+            Maven don't seem to have a way to reference the version of 'powsybl-parent' from child pom, so we hardcode a value here.
+            For example, in a multi-module project having 'powsybl-parent' as parent and sub-modules having as parent "../pom.xml", ${parent.version} refere to the root project...
+            Remember to update this property when upgrading this artifact, particularly when updating lombok.config in powsybl-build-tools.
+        -->
+        <powsybl-build-tools.version>12-SNAPSHOT</powsybl-build-tools.version>
 
         <!--
             by default don't override the javadocs. if you want to override the javadocs,
