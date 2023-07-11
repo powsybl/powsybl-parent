@@ -382,23 +382,13 @@
                                             <artifactId>powsybl-build-tools</artifactId>
                                             <version>${powsybl-build-tools.version}</version>
                                             <type>jar</type>
-                                            <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/configs</outputDirectory>
                                             <destFileName>powsybl-build-tools.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
-                                    <outputDirectory>${project.build.directory}/deps</outputDirectory>
-                                    <overWriteReleases>false</overWriteReleases>
-                                    <overWriteSnapshots>true</overWriteSnapshots>
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <showWarnings>true</showWarnings><!--show lombok warning during compile-->
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -407,7 +397,7 @@
             <id>check-lombok</id>
             <activation>
                 <file>
-                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists><!--active by default and disablable with '-P!...'-->
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
                 </file>
             </activation>
             <build>
