@@ -370,7 +370,7 @@
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>lombok-copy-deps</id>
+                                <id>lombok-copy-tools</id>
                                 <phase>initialize</phase>
                                 <goals>
                                     <goal>copy</goal>
@@ -416,26 +416,25 @@
                                     <rules>
                                         <requireActiveProfile>
                                             <profiles>lombok-config-copy</profiles>
-                                            <message>The profile "lombok-config-copy" isn't active, please use '-P...' or file marker to activate it.</message>
+                                            <message>The profile "lombok-config-copy" isn't active, please use the marker file to activate it.</message>
                                         </requireActiveProfile>
                                         <requireFilesExist>
                                             <files>
                                                 <file>${project.basedir}/lombok.config</file>
                                             </files>
-                                            <message>Missing file "lombok.config" in project. Please create it or disable check with "-P!check-lombok".</message>
+                                            <message>Missing file "lombok.config" in project. Please create it.</message>
                                         </requireFilesExist>
                                         <requireFilesExist>
                                             <files>
                                                 <file>${project.build.directory}/configs/powsybl-build-tools.jar</file>
                                             </files>
-                                            <message>Error: missing file "target/configs/powsybl-build-tools.jar" (copied by profile lombok-config-copy)...</message>
+                                            <message>Internal error: missing file "target/configs/powsybl-build-tools.jar" (managed by profile lombok-config-copy)...</message>
                                         </requireFilesExist>
                                         <evaluateBeanshell>
                                             <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("lombok.config"), "UTF-8").startsWith("import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config")</condition>
                                             <message>The lombok.config file must start with the line "import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config"</message>
                                         </evaluateBeanshell>
                                     </rules>
-                                    <fail>true</fail>
                                     <failFast>true</failFast>
                                 </configuration>
                             </execution>
