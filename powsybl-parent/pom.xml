@@ -50,6 +50,14 @@
         <maven.source.version>3.2.1</maven.source.version>
         <maven.templating.version>1.0.0</maven.templating.version>
 
+        <!-- Some plugins have dependencies we need to add -->
+        <!--
+            Maven don't seem to have a way to reference the version of 'powsybl-parent' from child pom, so we hardcode a value here.
+            For example, in a multi-module project having 'powsybl-parent' as parent and sub-modules having as parent "../pom.xml", ${parent.version} refere to the root project...
+            Remember to update this property when upgrading this artifact, particularly when updating lombok.config in powsybl-build-tools.
+        -->
+        <powsybl-build-tools.version>12-SNAPSHOT</powsybl-build-tools.version>
+
         <!--
             by default don't override the javadocs. if you want to override the javadocs,
             set the following property in the project
@@ -350,6 +358,87 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>lombok-config-copy</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-copy-tools</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.powsybl</groupId>
+                                            <artifactId>powsybl-build-tools</artifactId>
+                                            <version>${powsybl-build-tools.version}</version>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.directory}/configs</outputDirectory>
+                                            <destFileName>powsybl-build-tools.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>check-lombok</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
+                </file>
+            </activation>
+            <properties>
+                <powsybl.internal.lombok-import-line>import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config</powsybl.internal.lombok-import-line>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-verify-main-file</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireFilesExist>
+                                            <files>
+                                                <file>${project.basedir}/lombok.config</file>
+                                            </files>
+                                            <message>Missing file "lombok.config" in project. Please create it starting with the following content "${powsybl.internal.lombok-import-line}".</message>
+                                        </requireFilesExist>
+                                        <evaluateBeanshell>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("${project.basedir}/lombok.config"), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
+                                            <message>The lombok.config file must start with the line "${powsybl.internal.lombok-import-line}"</message>
+                                        </evaluateBeanshell>
+                                    </rules>
+                                    <failFast>true</failFast>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
