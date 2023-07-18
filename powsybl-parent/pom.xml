@@ -31,7 +31,7 @@
         <java.version>17</java.version>
 
         <maven.buildnumber.version>1.4</maven.buildnumber.version>
-        <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
+        <maven.checkstyle.version>3.3.0</maven.checkstyle.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
         <!--
