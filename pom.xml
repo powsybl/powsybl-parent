@@ -96,11 +96,11 @@
         <maven.antrun.version>3.1.0</maven.antrun.version>
         <maven.assembly.version>3.6.0</maven.assembly.version>
         <maven.buildhelper.version>3.4.0</maven.buildhelper.version>
-        <maven.clean.version>3.2.0</maven.clean.version>
+        <maven.clean.version>3.3.1</maven.clean.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <maven.dependency.version>3.6.0</maven.dependency.version>
         <maven.deploy.version>3.1.1</maven.deploy.version>
-        <maven.enforcer.version>3.3.0</maven.enforcer.version>
+        <maven.enforcer.version>3.4.0</maven.enforcer.version>
         <maven.gpg.version>3.1.0</maven.gpg.version>
         <maven.install.version>3.1.1</maven.install.version>
         <maven.jar.version>3.3.0</maven.jar.version>

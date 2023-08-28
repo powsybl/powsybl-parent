@@ -46,13 +46,8 @@
         <maven.jacoco.version>0.8.10</maven.jacoco.version>
         <maven.javadoc.version>3.5.0</maven.javadoc.version>
         <maven.plugin.version>3.9.0</maven.plugin.version>
-        <maven.shade.version>3.4.1</maven.shade.version>
+        <maven.shade.version>3.5.0</maven.shade.version>
         <maven.source.version>3.3.0</maven.source.version>
-        <!--
-            issue opened to fix the warnings from maven 3.9.2 ('Plugin should declare these Maven artifacts in `provided` scope') :
-            https://github.com/mojohaus/templating-maven-plugin/issues/54
-            no answer 2 weeks after initial post. Project abandoned ? To recheck later
-        -->
         <maven.templating.version>1.0.0</maven.templating.version>
 
         <!-- Some plugins have dependencies we need to add -->
