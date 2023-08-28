@@ -50,8 +50,8 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>4.22.0</liquibase-core.version>
-        <liquibase-hibernate.version>4.22.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
+        <liquibase-core.version>4.5.0</liquibase-core.version>
+        <liquibase-hibernate.version>4.5.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
         <validation-api.version>2.0.1.Final</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
