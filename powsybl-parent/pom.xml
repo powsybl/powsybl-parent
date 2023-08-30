@@ -339,8 +339,12 @@
                             <version>${maven.buildhelper.version}</version>
                             <executions>
                                 <execution>
-                                    <id>attach-artifact</id>
-                                    <phase>package</phase>
+                                    <!--
+                                      phase none here because this is optional (only for groovy projects)
+                                      add this buildhelper execution using this id explicitely and bind to a phase (suggested: package)
+                                    -->
+                                    <id>attach-groovydoc-artifact</id>
+                                    <phase>none</phase>
                                     <goals>
                                         <goal>attach-artifact</goal>
                                     </goals>
