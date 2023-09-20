@@ -318,7 +318,7 @@
                                         <goal>groovydoc-jar</goal>
                                     </goals>
                                     <configuration>
-                                        <attach>false</attach>
+                                        <attach>true</attach>
                                         <includeClasspath>PROJECT_AND_PLUGIN</includeClasspath>
                                         <classifier>${groovydoc.classifier}</classifier>
                                         <groovyDocJavaSources>${groovydoc.groovyDocJavaSources}</groovyDocJavaSources>
