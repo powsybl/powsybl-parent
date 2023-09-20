@@ -333,29 +333,6 @@
                                 </dependency>
                             </dependencies>
                         </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>build-helper-maven-plugin</artifactId>
-                            <version>${maven.buildhelper.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-artifact</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>attach-artifact</goal>
-                                    </goals>
-                                    <configuration>
-                                        <artifacts>
-                                            <artifact>
-                                                <file>target/${project.artifactId}-${project.version}-${groovydoc.classifier}.jar</file>
-                                                <type>javadoc</type>
-                                                <classifier>${groovydoc.classifier}</classifier>
-                                            </artifact>
-                                        </artifacts>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
                     </plugins>
                 </pluginManagement>
             </build>
