@@ -327,7 +327,7 @@
                             </executions>
                             <dependencies>
                                 <dependency>
-                                    <groupId>org.codehaus.groovy</groupId>
+                                    <groupId>org.apache.groovy</groupId>
                                     <artifactId>groovy-groovydoc</artifactId>
                                     <version>${maven.groovydoc.version}</version>
                                 </dependency>
