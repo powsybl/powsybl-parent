@@ -52,12 +52,12 @@
         <!-- for liquibase plugin -->
         <liquibase-core.version>4.20.0</liquibase-core.version>
         <liquibase-hibernate.version>4.20.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
-        <validation-api.version>2.0.1.Final</validation-api.version>
+        <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
         <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
         <liquibase.databaseUrl>jdbc:h2:./target/dummyDB</liquibase.databaseUrl>
-        <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</liquibase.referenceDatabaseUrl>
+        <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</liquibase.referenceDatabaseUrl>
         <liquibase.referenceDatabaseDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.referenceDatabaseDriver>
         <liquibase-hibernate-package>PROPERTY_TO_BE_DEFINED_IN_PROJECTS</liquibase-hibernate-package>
     </properties>
@@ -172,7 +172,7 @@ jib.to.image = finalName;
                 <dependencies>
                     <dependency>
                         <groupId>org.liquibase.ext</groupId>
-                        <artifactId>liquibase-hibernate5</artifactId>
+                        <artifactId>liquibase-hibernate6</artifactId>
                         <version>${liquibase-hibernate.version}</version>
                     </dependency>
                     <dependency>
@@ -181,8 +181,8 @@ jib.to.image = finalName;
                         <version>${maven.spring-boot.version}</version>
                     </dependency>
                     <dependency>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
+                        <groupId>jakarta.validation</groupId>
+                        <artifactId>jakarta.validation-api</artifactId>
                         <version>${validation-api.version}</version>
                     </dependency>
                 </dependencies>
