@@ -51,7 +51,25 @@
 
         <!-- for liquibase plugin -->
         <liquibase-core.version>4.20.0</liquibase-core.version>
-        <liquibase-hibernate.version>4.20.0</liquibase-hibernate.version> <!-- the same as liquibase-core -->
+        <!--
+          liquibase-hibernate6 4.20 (the same as liquibase-core) generates useless changesets, 4.23.2 doesn't seem to have this problem.
+          for example, but maybe there are more
+            existing
+            <column name="mystr" type="VARCHAR(255)">
+            still generates
+            <modifyDataType columnName="mystr" newDataType="varchar(255)"/>
+
+            existing
+            <column name="mydate" type="TIMESTAMP">
+            still generates
+            <modifyDataType columnName="mydate" newDataType="timestamp(6)"/>
+
+            existing
+            <column name="myuuid" type="UUID">
+            still generates
+            <modifyDataType columnName="myuuid" newDataType="bytea"/>
+        -->
+        <liquibase-hibernate.version>4.23.2</liquibase-hibernate.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
