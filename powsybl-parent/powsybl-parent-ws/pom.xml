@@ -74,7 +74,8 @@
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
         <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
-        <liquibase.databaseUrl>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DEFAULT_NULL_ORDERING=HIGH</liquibase.databaseUrl>
+        <liquibase.databaseUrl>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DEFAULT_NULL_ORDERING=HIGH;INIT=runscript from 'classpath:/powsybl-build-tools/liquibase-h2-init.sql'</liquibase.databaseUrl>
+        <!--;DATABASE_TO_LOWER=TRUE-->
         <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</liquibase.referenceDatabaseUrl>
         <liquibase.referenceDatabaseDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.referenceDatabaseDriver>
         <liquibase-hibernate-package>PROPERTY_TO_BE_DEFINED_IN_PROJECTS</liquibase-hibernate-package>
@@ -202,6 +203,11 @@ jib.to.image = finalName;
                         <groupId>jakarta.validation</groupId>
                         <artifactId>jakarta.validation-api</artifactId>
                         <version>${validation-api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.powsybl</groupId>
+                        <artifactId>powsybl-build-tools</artifactId>
+                        <version>${powsybl-build-tools.version}</version>
                     </dependency>
                 </dependencies>
 
