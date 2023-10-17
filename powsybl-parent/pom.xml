@@ -265,7 +265,7 @@
                           <dependency>
                             <groupId>com.powsybl</groupId>
                             <artifactId>powsybl-build-tools</artifactId>
-                            <version>${powsybl-build-tools.version}</version>
+                            <version>18-SNAPSHOT</version>
                           </dependency>
                         </dependencies>
                     </plugin>

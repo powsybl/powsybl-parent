@@ -50,7 +50,7 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>4.24.0</liquibase-core.version>
+        <liquibase-plugin.version>4.24.0</liquibase-plugin.version>
         <!--
           liquibase-hibernate6 4.20 (the same as liquibase-core) generates useless changesets, 4.23.2 doesn't seem to have this problem.
           for example, but maybe there are more
@@ -177,7 +177,7 @@ jib.to.image = finalName;
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase-core.version}</version>
+                <version>${liquibase-plugin.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
