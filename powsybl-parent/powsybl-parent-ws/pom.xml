@@ -50,7 +50,7 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-plugin.version>4.24.0</liquibase-plugin.version>
+        <liquibase-plugin.version>4.20.0</liquibase-plugin.version>
         <!--
           liquibase-hibernate6 4.20 (the same as liquibase-core) generates useless changesets, 4.23.2 doesn't seem to have this problem.
           for example, but maybe there are more
@@ -69,13 +69,12 @@
             still generates
             <modifyDataType columnName="myuuid" newDataType="bytea"/>
         -->
-        <liquibase-hibernate.version>4.24.0</liquibase-hibernate.version>
+        <liquibase-hibernate.version>4.23.2</liquibase-hibernate.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
         <liquibase.databaseDriver>org.h2.Driver</liquibase.databaseDriver>
         <liquibase.databaseUrl>jdbc:h2:./target/dummyDB;MODE=PostgreSQL;DEFAULT_NULL_ORDERING=HIGH;INIT=runscript from 'classpath:/powsybl-build-tools/liquibase-h2-init.sql'</liquibase.databaseUrl>
-        <!--;DATABASE_TO_LOWER=TRUE-->
         <liquibase.referenceDatabaseUrl>hibernate:spring:${liquibase-hibernate-package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</liquibase.referenceDatabaseUrl>
         <liquibase.referenceDatabaseDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</liquibase.referenceDatabaseDriver>
         <liquibase-hibernate-package>PROPERTY_TO_BE_DEFINED_IN_PROJECTS</liquibase-hibernate-package>
