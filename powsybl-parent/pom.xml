@@ -429,7 +429,7 @@
                                             <message>Missing file "lombok.config" in project. Please create it starting with the following content "${powsybl.internal.lombok-import-line}".</message>
                                         </requireFilesExist>
                                         <evaluateBeanshell>
-                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File("${project.basedir}/lombok.config"), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File(URI.create("${project.baseUri}").resolve("lombok.config")), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
                                             <message>The lombok.config file must start with the line "${powsybl.internal.lombok-import-line}"</message>
                                         </evaluateBeanshell>
                                     </rules>
