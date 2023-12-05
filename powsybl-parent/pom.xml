@@ -67,6 +67,7 @@
                 <maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
         -->
+        <groovydoc.attach>true</groovydoc.attach>
         <groovydoc.classifier>groovydoc</groovydoc.classifier>
         <groovydoc.groovyDocJavaSources>false</groovydoc.groovyDocJavaSources>
 
@@ -318,7 +319,7 @@
                                         <goal>groovydoc-jar</goal>
                                     </goals>
                                     <configuration>
-                                        <attach>true</attach>
+                                        <attach>${groovydoc.attach}</attach>
                                         <includeClasspath>PROJECT_AND_PLUGIN</includeClasspath>
                                         <classifier>${groovydoc.classifier}</classifier>
                                         <groovyDocJavaSources>${groovydoc.groovyDocJavaSources}</groovyDocJavaSources>
