@@ -4,5 +4,5 @@
  */;
 /*keep these semi-colon for not having comments in output logs*/;
 
-/** There is some datatypes H2 in compatibility mode don"t take into account, so we create a domain/alias of equivalent type **/;
+/* There is some datatypes H2 in compatibility mode don't take into account, so we create a domain/alias of equivalent type */;
 CREATE DOMAIN IF NOT EXISTS JSONB AS JSON;
