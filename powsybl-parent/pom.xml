@@ -62,12 +62,13 @@
             by default don't override the javadocs. if you want to override the javadocs,
             set the following property in the project
             <properties>
+                <groovydoc.attach>true</groovydoc.attach>
                 <groovydoc.classifier>javadoc</groovydoc.classifier>
                 <groovydoc.groovyDocJavaSources>true</groovydoc.groovyDocJavaSources>
                 <maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
         -->
-        <groovydoc.attach>true</groovydoc.attach>
+        <groovydoc.attach>false</groovydoc.attach>
         <groovydoc.classifier>groovydoc</groovydoc.classifier>
         <groovydoc.groovyDocJavaSources>false</groovydoc.groovyDocJavaSources>
 
