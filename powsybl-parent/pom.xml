@@ -62,11 +62,13 @@
             by default don't override the javadocs. if you want to override the javadocs,
             set the following property in the project
             <properties>
+                <groovydoc.attach>true</groovydoc.attach>
                 <groovydoc.classifier>javadoc</groovydoc.classifier>
                 <groovydoc.groovyDocJavaSources>true</groovydoc.groovyDocJavaSources>
                 <maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
         -->
+        <groovydoc.attach>false</groovydoc.attach>
         <groovydoc.classifier>groovydoc</groovydoc.classifier>
         <groovydoc.groovyDocJavaSources>false</groovydoc.groovyDocJavaSources>
 
@@ -318,7 +320,7 @@
                                         <goal>groovydoc-jar</goal>
                                     </goals>
                                     <configuration>
-                                        <attach>false</attach>
+                                        <attach>${groovydoc.attach}</attach>
                                         <includeClasspath>PROJECT_AND_PLUGIN</includeClasspath>
                                         <classifier>${groovydoc.classifier}</classifier>
                                         <groovyDocJavaSources>${groovydoc.groovyDocJavaSources}</groovyDocJavaSources>
@@ -332,29 +334,6 @@
                                     <version>${maven.groovydoc.version}</version>
                                 </dependency>
                             </dependencies>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>build-helper-maven-plugin</artifactId>
-                            <version>${maven.buildhelper.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-artifact</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>attach-artifact</goal>
-                                    </goals>
-                                    <configuration>
-                                        <artifacts>
-                                            <artifact>
-                                                <file>target/${project.artifactId}-${project.version}-${groovydoc.classifier}.jar</file>
-                                                <type>javadoc</type>
-                                                <classifier>${groovydoc.classifier}</classifier>
-                                            </artifact>
-                                        </artifacts>
-                                    </configuration>
-                                </execution>
-                            </executions>
                         </plugin>
                     </plugins>
                 </pluginManagement>

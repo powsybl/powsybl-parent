@@ -115,14 +115,6 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!--disable parent pom attaching of groovy-javadoc. Fixes the following error during release:
-                        gpg: impossible d'ouvrir « /tmp/powsybl-parent/powsybl-parent/powsybl-parent-ws/target/powsybl-parent-ws-5-groovydoc.jar » : Aucun fichier ou dossier de ce type
-                        gpg: signing failed: erreur d'ouverture de fichier
-                        -->
-                        <id>attach-artifact</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
                     <goals>
                         <goal>bsh-property</goal>
                     </goals>
