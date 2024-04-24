@@ -68,8 +68,11 @@
             <column name="myuuid" type="UUID">
             still generates
             <modifyDataType columnName="myuuid" newDataType="bytea"/>
+
+            Switching to liquibase-hibernate.version 4.26.0, which includes resolving the issue where it attempted to connect to the database during changelog generation.
+            This connection issue has been corrected in version 4.26.0, along with potential additional bug fixes and enhancements.
         -->
-        <liquibase-hibernate.version>4.23.2</liquibase-hibernate.version>
+        <liquibase-hibernate.version>4.26.0</liquibase-hibernate.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
