@@ -24,7 +24,7 @@
     <description>Powsybl Parent for Web Services</description>
 
     <properties>
-        <maven.jib.version>3.3.2</maven.jib.version>
+        <maven.jib.version>3.3.3</maven.jib.version>
         <maven.spring-boot.version>3.3.2</maven.spring-boot.version>
         <maven.git-commit-id.version>8.0.2</maven.git-commit-id.version>
 
