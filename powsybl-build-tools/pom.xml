@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl</artifactId>
-        <version>20</version>
+        <version>21-SNAPSHOT</version>
     </parent>
 
     <artifactId>powsybl-build-tools</artifactId>
