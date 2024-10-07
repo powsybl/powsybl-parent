@@ -88,4 +88,4 @@ Another possibility is to dump the sql statements corresponding to the existing 
   mvn clean liquibase:update liquibase:generateChangeLog -Dliquibase.outputChangeLogFile=out.DATABASE_TYPE.sql
   ```
 
-NOTE: replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is.
+Note: Replace DATABASE_TYPE by your database vendor. To get a list of supported types, execute the command as is.
