@@ -78,7 +78,14 @@ databaseChangeLog:
   # ... more files
 ```
 ##### Inspecting the schema
-Another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
+Another possibility is to dump the sql statements corresponding to the jpa annotations:
   ```
   mvn compile liquibase:dropAll liquibase:diff -Dliquibase-diff.outputFile=out.DATABASE_TYPE.sql
   ```
+
+Another possibility is to dump the sql statements corresponding to the existing changesets:
+  ```
+  mvn clean liquibase:update liquibase:generateChangeLog -Dliquibase.outputChangeLogFile=out.DATABASE_TYPE.sql
+  ```
+
+NOTE: replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is.
