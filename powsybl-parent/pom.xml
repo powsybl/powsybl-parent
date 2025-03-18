@@ -49,6 +49,7 @@
         <maven.shade.version>3.6.0</maven.shade.version>
         <maven.source.version>3.3.1</maven.source.version>
         <maven.templating.version>3.0.0</maven.templating.version>
+        <maven.sonar.version>5.0.0.4389</maven.sonar.version>
 
         <!-- Some plugins have dependencies we need to add -->
         <!--
@@ -175,6 +176,11 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${maven.sonar.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
