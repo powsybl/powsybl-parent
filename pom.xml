@@ -273,7 +273,7 @@
                                     <deployMissingFile>true</deployMissingFile>
                                     <excludedGroups>^com\.powsybl</excludedGroups>
                                     <excludedScopes>test,provided</excludedScopes>
-                                    <excludeTransitiveDependencies>true</excludeTransitiveDependencies>
+                                    <excludeTransitiveDependencies>false</excludeTransitiveDependencies>
                                     <failOnBlacklist>false</failOnBlacklist>
                                     <failOnMissing>true</failOnMissing>
                                     <fileTemplate>/org/codehaus/mojo/license/third-party-file-groupByMultiLicense.ftl</fileTemplate>
