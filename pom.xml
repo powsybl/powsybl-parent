@@ -271,7 +271,7 @@
                                     <thirdPartyFilename>THIRD-PARTY.txt</thirdPartyFilename>
                                     <!-- Optional parameters -->
                                     <deployMissingFile>true</deployMissingFile>
-                                    <excludedGroups>^com\.powsybl</excludedGroups>
+                                    <excludedGroups>^com\.powsybl$</excludedGroups>
                                     <excludedScopes>test,provided</excludedScopes>
                                     <excludeTransitiveDependencies>true</excludeTransitiveDependencies>
                                     <failOnBlacklist>false</failOnBlacklist>
