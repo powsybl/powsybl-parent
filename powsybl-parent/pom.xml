@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl</artifactId>
-        <version>20</version>
+        <version>20.1-SNAPSHOT</version>
     </parent>
     <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
@@ -267,7 +267,7 @@
                           <dependency>
                             <groupId>com.powsybl</groupId>
                             <artifactId>powsybl-build-tools</artifactId>
-                            <version>20</version>
+                            <version>20.1-SNAPSHOT</version>
                           </dependency>
                         </dependencies>
                     </plugin>
