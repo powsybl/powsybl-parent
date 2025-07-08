@@ -255,12 +255,6 @@
         </profile>
         <profile>
             <id>licenses</id>
-            <activation>
-                <property>
-                    <name>licenses</name>
-                    <value>true</value>
-                </property>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -296,14 +290,17 @@
                                         <licenseMerge>Apache License, Version 2.0|The Apache License, Version 2.0</licenseMerge>
                                         <licenseMerge>Apache License, Version 2.0|The Apache Software License, Version 2.0</licenseMerge>
                                         <licenseMerge>Apache License, Version 2.0|Apache Software Licenses</licenseMerge>
+                                        <licenseMerge>Apache License, Version 2.0|Apache License 2.0</licenseMerge>
                                         <licenseMerge>Eclipse Distribution License - v 1.0|Eclipse Distribution License v1.0</licenseMerge>
                                         <licenseMerge>Eclipse Distribution License - v 1.0|EDL 1.0</licenseMerge>
                                         <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
                                         <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License, Version 1.0</licenseMerge>
                                         <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License (EPL) 2.0</licenseMerge>
                                         <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License v2.0</licenseMerge>
+                                        <licenseMerge>Eclipse Public License - v 2.0|EPL 2.0</licenseMerge>
                                         <licenseMerge>MIT License|MIT</licenseMerge>
                                         <licenseMerge>MIT License|The MIT License</licenseMerge>
+                                        <licenseMerge>BSD 0-clause License|0BSD</licenseMerge>
                                         <licenseMerge>BSD 2-clause License|BSD 2-Clause License</licenseMerge>
                                         <licenseMerge>BSD 2-clause License|BSD</licenseMerge>
                                         <licenseMerge>BSD 2-clause License|Simplified BSD License</licenseMerge>
@@ -313,6 +310,7 @@
                                         <licenseMerge>BSD 3-clause License|Revised BSD License</licenseMerge>
                                         <licenseMerge>BSD 3-clause License|New BSD License</licenseMerge>
                                         <licenseMerge>BSD 3-clause License|The BSD License</licenseMerge>
+                                        <licenseMerge>GNU General Public License v2.0 with Classpath exception|GPL2 w/ CPE</licenseMerge>
                                         <licenseMerge>GNU Lesser General Public License v2.1|LGPL-2.1-or-later</licenseMerge>
                                         <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License Version 2.1, February 1999</licenseMerge>
                                         <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License 2.1</licenseMerge>
@@ -328,9 +326,6 @@
         </profile>
         <profile>
             <id>release</id>
-            <properties>
-                <licenses>true</licenses>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
