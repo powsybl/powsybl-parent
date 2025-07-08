@@ -255,6 +255,12 @@
         </profile>
         <profile>
             <id>licenses</id>
+            <activation>
+                <property>
+                    <name>powsybl.licenses</name>
+                    <value>true</value>
+                </property>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
