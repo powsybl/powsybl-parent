@@ -32,6 +32,7 @@
 
         <maven.buildnumber.version>3.2.1</maven.buildnumber.version>
         <maven.checkstyle.version>3.6.0</maven.checkstyle.version>
+        <checkstyle.version>11.0.1</checkstyle.version> <!-- The maven checkstyle plugin depends on an old version of Checkstyle -->
         <maven.failsafe.version>3.5.2</maven.failsafe.version>
         <maven.gmavenplus.version>4.1.1</maven.gmavenplus.version>
         <!--
@@ -233,32 +234,13 @@
                 <argLine/>
             </properties>
             <build>
-              <pluginManagement>
-                  <plugins>
-                      <plugin>
-                          <groupId>org.apache.maven.plugins</groupId>
-                          <artifactId>maven-surefire-plugin</artifactId>
-                          <configuration>
-                              <!--
-                                Temporary solution to remove the JDK21 warning during tests using mockito
-                                or other agents "WARNING: A Java agent has been loaded dynamically"
-                                and keep the same behavior as previous JDKs.
-                                This may stop working in the future (java23+ ?) and the
-                                agents probably will have to be explictly
-                                listed using maven's configuration (inject the target artifact jars into argLine).
-                                Using this configuration now gives us and the maven community more time to
-                                establish best practices regarding this configuration, how to use it in large
-                                projects with shared inherited build systems.
-                                @{argLine} syntax to append instead of replace
-                              -->
-                              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
-                          </configuration>
-                      </plugin>
-                      <plugin>
-                          <groupId>org.apache.maven.plugins</groupId>
-                          <artifactId>maven-failsafe-plugin</artifactId>
-                          <configuration>
-                              <!--
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <!--
                                   Temporary solution to remove the JDK21 warning during tests using mockito
                                   or other agents "WARNING: A Java agent has been loaded dynamically"
                                   and keep the same behavior as previous JDKs.
@@ -269,12 +251,31 @@
                                   establish best practices regarding this configuration, how to use it in large
                                   projects with shared inherited build systems.
                                   @{argLine} syntax to append instead of replace
-                              -->
-                              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
-                          </configuration>
-                      </plugin>
-                  </plugins>
-              </pluginManagement>
+                                -->
+                                <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <configuration>
+                                <!--
+                                    Temporary solution to remove the JDK21 warning during tests using mockito
+                                    or other agents "WARNING: A Java agent has been loaded dynamically"
+                                    and keep the same behavior as previous JDKs.
+                                    This may stop working in the future (java23+ ?) and the
+                                    agents probably will have to be explictly
+                                    listed using maven's configuration (inject the target artifact jars into argLine).
+                                    Using this configuration now gives us and the maven community more time to
+                                    establish best practices regarding this configuration, how to use it in large
+                                    projects with shared inherited build systems.
+                                    @{argLine} syntax to append instead of replace
+                                -->
+                                <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
         <profile>
@@ -339,11 +340,16 @@
                             </execution>
                         </executions>
                         <dependencies>
-                          <dependency>
-                            <groupId>com.powsybl</groupId>
-                            <artifactId>powsybl-build-tools</artifactId>
-                            <version>24-SNAPSHOT</version>
-                          </dependency>
+                            <dependency>
+                                <groupId>com.powsybl</groupId>
+                                <artifactId>powsybl-build-tools</artifactId>
+                                <version>24-SNAPSHOT</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
                         </dependencies>
                     </plugin>
                 </plugins>
@@ -460,7 +466,9 @@
                 </file>
             </activation>
             <properties>
-                <powsybl.internal.lombok-import-line>import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config</powsybl.internal.lombok-import-line>
+                <powsybl.internal.lombok-import-line>import
+                    target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config
+                </powsybl.internal.lombok-import-line>
             </properties>
             <build>
                 <plugins>
@@ -480,11 +488,18 @@
                                             <files>
                                                 <file>${project.basedir}/lombok.config</file>
                                             </files>
-                                            <message>Missing file "lombok.config" in project. Please create it starting with the following content "${powsybl.internal.lombok-import-line}".</message>
+                                            <message>Missing file "lombok.config" in project. Please create it starting
+                                                with the following content "${powsybl.internal.lombok-import-line}".
+                                            </message>
                                         </requireFilesExist>
                                         <evaluateBeanshell>
-                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File(URI.create("${project.baseUri}").resolve("lombok.config")), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
-                                            <message>The lombok.config file must start with the line "${powsybl.internal.lombok-import-line}"</message>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new
+                                                File(URI.create("${project.baseUri}").resolve("lombok.config")),
+                                                "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")
+                                            </condition>
+                                            <message>The lombok.config file must start with the line
+                                                "${powsybl.internal.lombok-import-line}"
+                                            </message>
                                         </evaluateBeanshell>
                                     </rules>
                                     <failFast>true</failFast>
