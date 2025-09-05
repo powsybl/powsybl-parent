@@ -466,9 +466,7 @@
                 </file>
             </activation>
             <properties>
-                <powsybl.internal.lombok-import-line>import
-                    target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config
-                </powsybl.internal.lombok-import-line>
+                <powsybl.internal.lombok-import-line>import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config</powsybl.internal.lombok-import-line>
             </properties>
             <build>
                 <plugins>
@@ -488,18 +486,11 @@
                                             <files>
                                                 <file>${project.basedir}/lombok.config</file>
                                             </files>
-                                            <message>Missing file "lombok.config" in project. Please create it starting
-                                                with the following content "${powsybl.internal.lombok-import-line}".
-                                            </message>
+                                            <message>Missing file "lombok.config" in project. Please create it starting with the following content "${powsybl.internal.lombok-import-line}".</message>
                                         </requireFilesExist>
                                         <evaluateBeanshell>
-                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new
-                                                File(URI.create("${project.baseUri}").resolve("lombok.config")),
-                                                "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")
-                                            </condition>
-                                            <message>The lombok.config file must start with the line
-                                                "${powsybl.internal.lombok-import-line}"
-                                            </message>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File(URI.create("${project.baseUri}").resolve("lombok.config")), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
+                                            <message>The lombok.config file must start with the line "${powsybl.internal.lombok-import-line}"</message>
                                         </evaluateBeanshell>
                                     </rules>
                                     <failFast>true</failFast>
