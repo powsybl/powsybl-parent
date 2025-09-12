@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl</artifactId>
-        <version>22.2-SNAPSHOT</version>
+        <version>22.2</version>
     </parent>
     <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
@@ -58,7 +58,7 @@
             For example, in a multi-module project having 'powsybl-parent' as parent and sub-modules having as parent "../pom.xml", ${parent.version} refere to the root project...
             Remember to update this property when upgrading this artifact, particularly when updating lombok.config in powsybl-build-tools.
         -->
-        <powsybl-build-tools.version>22.2-SNAPSHOT</powsybl-build-tools.version>
+        <powsybl-build-tools.version>22.2</powsybl-build-tools.version>
 
         <!--
             by default don't override the javadocs. if you want to override the javadocs,
@@ -343,7 +343,7 @@
                             <dependency>
                                 <groupId>com.powsybl</groupId>
                                 <artifactId>powsybl-build-tools</artifactId>
-                                <version>22.2-SNAPSHOT</version>
+                                <version>22.2</version>
                             </dependency>
                             <dependency>
                                 <groupId>com.puppycrawl.tools</groupId>
