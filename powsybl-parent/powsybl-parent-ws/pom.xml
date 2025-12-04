@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl-parent</artifactId>
-        <version>21-SNAPSHOT</version>
+        <version>26-SNAPSHOT</version>
     </parent>
     <artifactId>powsybl-parent-ws</artifactId>
     <packaging>pom</packaging>
@@ -24,11 +24,15 @@
     <description>Powsybl Parent for Web Services</description>
 
     <properties>
-        <maven.jib.version>3.3.2</maven.jib.version>
+        <maven.jib.version>3.4.4</maven.jib.version>
         <maven.spring-boot.version>3.3.3</maven.spring-boot.version>
+        <!--
+          For simplicity, we keep git-commit-id in sync with springboot
+          to behave like spring-boot-starter-parent
+        -->
         <maven.git-commit-id.version>8.0.2</maven.git-commit-id.version>
 
-        <jib.from.image>powsybl/java:2.0.0</jib.from.image>
+        <jib.from.image>powsybl/java:3.0.0</jib.from.image>
 
         <!--
         SPRING_PROFILES_ACTIVE: remove extra profiles. This is used for example to remove the "local" profile
