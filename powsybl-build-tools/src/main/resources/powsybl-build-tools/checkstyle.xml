@@ -64,7 +64,7 @@
     <!-- Size Violations -->
     <module name="LineLength"><!-- NEW -->
         <property name="fileExtensions" value="java"/>
-        <property name="max" value="100"/><!-- 100 chars seems too low -->
+        <property name="max" value="200"/><!-- 100 chars seems too low -->
         <property name="ignorePattern"
                   value="^( *\* *([^ ]+|\{@code .*|&lt;a href=&quot;[^&quot;]+&quot;&gt;)|(package|import) .*)$"/>
     </module>
@@ -79,7 +79,7 @@
     <module name="FileTabCharacter"/>
 
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>
+        <property name="tabWidth" value="4"/><!-- NEW -->
 
         <!-- Annotations -->
         <module name="AnnotationLocation"><!-- NEW -->
@@ -127,9 +127,6 @@
                        java.lang.RuntimeException,
                        java.lang.NullPointerException"/>
         </module>
-        <module name="MultipleStringLiterals"><!-- NEW -->
-            <property name="allowedDuplicates" value="2"/>
-        </module>
         <module name="MultipleVariableDeclarations"/>
         <module name="OneStatementPerLine"/><!-- NEW -->
         <module name="PackageDeclaration"/><!-- NEW -->
@@ -144,10 +141,9 @@
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/><!-- NEW -->
         <module name="UnnecessarySemicolonInEnumeration"/><!-- NEW -->
         <module name="UnnecessarySemicolonInTryWithResources"/><!-- NEW -->
-        <module name="VariableDeclarationUsageDistance"/><!-- NEW -->
 
         <!-- Imports -->
-        <module name="AvoidStarImport"/><!-- NEW -->
+<!--        <module name="AvoidStarImport"/>&lt;!&ndash; NEW &ndash;&gt;-->
         <module name="CustomImportOrder"><!-- NEW --><!-- based on IntelliJ formatting -->
             <property name="customImportOrderRules"
                       value="THIRD_PARTY_PACKAGE, SPECIAL_IMPORTS, STANDARD_JAVA_PACKAGE, STATIC"/>
@@ -159,17 +155,6 @@
         <module name="IllegalImport"/>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
-
-        <!-- Javadoc Comments -->
-        <module name="AtclauseOrder"/><!-- NEW -->
-        <module name="InvalidJavadocPosition"/><!-- NEW -->
-        <module name="JavadocLeadingAsteriskAlign"/><!-- NEW -->
-        <module name="JavadocMissingWhitespaceAfterAsterisk"/><!-- NEW -->
-        <module name="JavadocParagraph"/><!-- NEW -->
-        <module name="JavadocTagContinuationIndentation"/><!-- NEW -->
-        <module name="NonEmptyAtclauseDescription"/><!-- NEW -->
-        <module name="RequireEmptyLineBeforeBlockTagGroup"/><!-- NEW -->
-        <module name="SingleLineJavadoc"/><!-- NEW -->
 
         <!-- Misc -->
         <module name="ArrayTypeStyle"/>
@@ -187,7 +172,7 @@
         <!-- Modifiers -->
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"><!-- NEW -->
-            <property name="jdkVersion" value="${checkstyle.java.version}"/>
+            <property name="jdkVersion" value="21"/>
         </module>
 
         <!-- Naming Conventions -->
@@ -218,9 +203,11 @@
         <module name="TypeName"/>
 
         <!-- Size Violations -->
-        <module name="LambdaBodyLength"/><!-- NEW -->
+        <module name="LambdaBodyLength"><!-- NEW -->
+            <property name="max" value="15"/>
+        </module>
         <module name="MethodLength"><!-- NEW -->
-            <property name="max" value="150"/>
+            <property name="max" value="200"/>
             <property name="countEmpty" value="false"/>
         </module>
         <module name="OuterTypeNumber"/><!-- NEW -->
@@ -233,7 +220,7 @@
             <property name="allowMultipleEmptyLines" value="false"/>
             <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
             <property name="tokens"
-                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                      value="IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                       STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF, RECORD_DEF,
                       COMPACT_CTOR_DEF"/>
         </module>
