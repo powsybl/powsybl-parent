@@ -4,73 +4,260 @@
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
 <module name="Checker">
 
-    <module name="FileTabCharacter"/>
+    <property name="severity" value="error"/><!-- NEW -->
+    <property name="charset" value="UTF-8"/><!-- NEW -->
+    <property name="fileExtensions" value="java, properties, xml"/><!-- NEW -->
 
+    <!-- Excludes all 'module-info.java' files              -->
+    <!-- See https://checkstyle.org/filefilters/index.html -->
+    <module name="BeforeExecutionExclusionFileFilter"><!-- NEW -->
+        <property name="fileNamePattern" value="module\-info\.java$" />
+    </module>
+
+    <!-- Filters -->
+    <module name="SuppressWarningsFilter"/>
+
+    <!-- Miscellaneous -->
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf_cr_crlf"/>
     </module>
+    <module name="Translation"><!-- NEW -->
+        <property name="fileExtensions" value="properties"/>
+        <property name="requiredTranslations" value="en, fr"/>
+    </module>
+    <module name="UniqueProperties"/><!-- NEW -->
+    <module name="OrderedProperties" /><!-- NEW -->
 
-    <module name="RegexpSingleline">
+    <!-- Regexp -->
+    <module name="RegexpMultiline"><!-- NEW -->
+        <property name="id" value="noWindowsLineDelimiter"/>
+        <property name="format" value="(\r\n|\r)"/>
+        <property name="message" value="Line has Windows line delimiter."/>
+    </module>
+    <module name="RegexpMultiline"><!-- NEW -->
+        <property name="id" value="noConsecutiveLines"/>
+        <property name="format" value="\r?\n[\t ]*\r?\n[\t ]*\r?\n"/>
+        <property name="fileExtensions" value="java,xml,properties"/>
+        <property name="message" value="Unnecessary consecutive lines"/>
+    </module>
+    <module name="RegexpMultiline"><!-- NEW -->
+        <property name="id" value="noEmptyFile"/>
+        <property name="format" value="^\s*$" />
+        <property name="matchAcrossLines" value="true" />
+        <property name="message" value="Empty file is not allowed" />
+    </module>
+    <module name="RegexpSingleline"><!-- NEW -->
+        <property name="id" value="noTrailingWhitespace"/>
         <property name="format" value="\s+$"/>
         <property name="minimum" value="0"/>
         <property name="maximum" value="0"/>
         <property name="message" value="Line has trailing spaces."/>
     </module>
+    <module name="RegexpSingleline"><!-- NEW -->
+        <property name="id" value="sinceVersionNumber"/>
+        <property name="format" value="\*\s+@since\s+([1-9][0-9])(\.[0-9]+)?$"/>
+        <property name="fileExtensions" value="java"/>
+        <property name="message"
+                  value="@since tag must follow the X.Y.Z version format after version 10.5.0."/>
+    </module>
 
-    <module name="Translation"/>
+    <!-- Size Violations -->
+    <module name="LineLength"><!-- NEW -->
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="100"/><!-- 100 chars seems too low -->
+        <property name="ignorePattern"
+                  value="^( *\* *([^ ]+|\{@code .*|&lt;a href=&quot;[^&quot;]+&quot;&gt;)|(package|import) .*)$"/>
+    </module>
+    <!--  Suppression to prevent LineLength Check from flagging lines in Text-blocks -->
+    <module name="SuppressWithPlainTextCommentFilter">
+        <property name="checkFormat" value="LineLength"/>
+        <property name="offCommentFormat" value='^.*"""\s*$'/>
+        <property name="onCommentFormat" value='^\s*"""\s*(?:[,;]|.+)$'/>
+    </module>
+
+    <!-- Whitespace -->
+    <module name="FileTabCharacter"/>
 
     <module name="TreeWalker">
+        <property name="tabWidth" value="4"/>
+
+        <!-- Annotations -->
+        <module name="AnnotationLocation"><!-- NEW -->
+            <property name="id" value="AnnotationLocationMostCases"/>
+            <property name="tokens"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF,
+                      RECORD_DEF, COMPACT_CTOR_DEF, PACKAGE_DEF"/>
+        </module>
+        <module name="AnnotationLocation"><!-- NEW -->
+            <property name="id" value="AnnotationLocationVariables"/>
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="allowSamelineMultipleAnnotations" value="true"/>
+        </module>
+        <module name="MissingDeprecated"/><!-- Verifies that the annotation @Deprecated and the Javadoc tag @deprecated are both present when either of them is present --><!-- NEW -->
         <module name="SuppressWarningsHolder"/>
-        <module name="AbbreviationAsWordInName"/>
-        <module name="AbstractClassName"/>
-        <module name="ArrayTypeStyle"/>
-        <module name="ConstantName"/>
+
+        <!-- Block Checks -->
+        <module name="AvoidNestedBlocks"><!-- NEW -->
+            <property name="allowInSwitchCase" value="true"/>
+        </module>
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="ignored"/>
+            <property name="commentFormat" value="\w+"/><!-- NEW -->
         </module>
-        <module name="EmptyLineSeparator">
-            <property name="allowNoEmptyLineBetweenFields" value="true"/>
-            <property name="allowMultipleEmptyLines" value="false"/>
-            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
-            <property name="tokens" value="IMPORT, CLASS_DEF, INTERFACE_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
-        </module>
-        <module name="EmptyStatement"/>
-        <module name="EqualsHashCode"/>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- Class Design -->
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
+        <module name="MutableException"/>
+        <module name="OneTopLevelClass"/><!-- NEW -->
+
+        <!-- Coding -->
+        <module name="ConstructorsDeclarationGrouping"/><!-- NEW -->
+        <module name="DefaultComesLast"/><!-- NEW -->
+        <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/><!-- NEW -->
+        <module name="EqualsHashCode"/>
+        <module name="IllegalCatch"><!-- NEW -->
+            <property name="illegalClassNames"
+                      value="java.lang.Exception,
+                       java.lang.Throwable,
+                       java.lang.RuntimeException,
+                       java.lang.NullPointerException"/>
+        </module>
+        <module name="MultipleStringLiterals"><!-- NEW -->
+            <property name="allowedDuplicates" value="2"/>
+        </module>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="OneStatementPerLine"/><!-- NEW -->
+        <module name="PackageDeclaration"/><!-- NEW -->
+        <module name="ParameterAssignment"/>
+        <module name="PatternVariableAssignment"/><!-- NEW -->
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="UnnecessaryNullCheckWithInstanceOf"/><!-- NEW -->
+        <module name="UnnecessaryParentheses"/>
+        <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/><!-- NEW -->
+        <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/><!-- NEW -->
+        <module name="UnnecessarySemicolonInEnumeration"/><!-- NEW -->
+        <module name="UnnecessarySemicolonInTryWithResources"/><!-- NEW -->
+        <module name="VariableDeclarationUsageDistance"/><!-- NEW -->
+
+        <!-- Imports -->
+        <module name="AvoidStarImport"/><!-- NEW -->
+        <module name="CustomImportOrder"><!-- NEW --><!-- based on IntelliJ formatting -->
+            <property name="customImportOrderRules"
+                      value="THIRD_PARTY_PACKAGE, SPECIAL_IMPORTS, STANDARD_JAVA_PACKAGE, STATIC"/>
+            <property name="specialImportsRegExp" value="^javax\."/>
+            <property name="standardPackageRegExp" value="^java\."/>
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="false"/>
+        </module>
         <module name="IllegalImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- Javadoc Comments -->
+        <module name="AtclauseOrder"/><!-- NEW -->
+        <module name="InvalidJavadocPosition"/><!-- NEW -->
+        <module name="JavadocLeadingAsteriskAlign"/><!-- NEW -->
+        <module name="JavadocMissingWhitespaceAfterAsterisk"/><!-- NEW -->
+        <module name="JavadocParagraph"/><!-- NEW -->
+        <module name="JavadocTagContinuationIndentation"/><!-- NEW -->
+        <module name="NonEmptyAtclauseDescription"/><!-- NEW -->
+        <module name="RequireEmptyLineBeforeBlockTagGroup"/><!-- NEW -->
+        <module name="SingleLineJavadoc"/><!-- NEW -->
+
+        <!-- Misc -->
+        <module name="ArrayTypeStyle"/>
+        <module name="AvoidEscapedUnicodeCharacters"><!-- NEW -->
+            <property name="allowEscapesForControlCharacters" value="true"/>
+            <property name="allowByTailComment" value="true"/>
+            <property name="allowNonPrintableEscapes" value="true"/>
+        </module>
+        <module name="CommentsIndentation"/><!-- NEW -->
         <module name="Indentation"/>
-        <module name="LeftCurly"/>
+        <module name="OuterTypeFilename"/>
+        <module name="UpperEll"/>
+        <module name="HexLiteralCase"/><!-- NEW -->
+
+        <!-- Modifiers -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"><!-- NEW -->
+            <property name="jdkVersion" value="${checkstyle.java.version}"/>
+        </module>
+
+        <!-- Naming Conventions -->
+        <module name="AbbreviationAsWordInName">
+            <property name="ignoreFinal" value="false"/><!-- NEW -->
+            <property name="ignoreStatic" value="false"/><!-- NEW -->
+        </module>
+        <module name="AbstractClassName"/>
+        <module name="CatchParameterName"/><!-- NEW -->
+        <module name="ClassTypeParameterName"/><!-- NEW -->
+        <module name="ConstantName"/>
+        <module name="InterfaceTypeParameterName"/><!-- NEW -->
+        <module name="LambdaParameterName"/><!-- NEW -->
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
         <module name="MethodName"/>
+        <module name="MethodTypeParameterName"/><!-- NEW -->
+        <module name="PackageName"><!-- NEW -->
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <message key="name.invalidPattern"
+                     value="Package name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="ParameterName"/>
+        <module name="PatternVariableName"/><!-- NEW -->
+        <module name="RecordComponentName"/><!-- NEW -->
+        <module name="RecordTypeParameterName"/><!-- NEW -->
+        <module name="TypeName"/>
+
+        <!-- Size Violations -->
+        <module name="LambdaBodyLength"/><!-- NEW -->
+        <module name="MethodLength"><!-- NEW -->
+            <property name="max" value="150"/>
+            <property name="countEmpty" value="false"/>
+        </module>
+        <module name="OuterTypeNumber"/><!-- NEW -->
+
+        <!-- Whitespace -->
+        <module name="EmptyForInitializerPad"/><!-- NEW -->
+        <module name="EmptyForIteratorPad"/><!-- NEW -->
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+            <property name="tokens"
+                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                      STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF, RECORD_DEF,
+                      COMPACT_CTOR_DEF"/>
+        </module>
+        <module name="GenericWhitespace"><!-- NEW -->
+            <message key="ws.followed"
+                     value="GenericWhitespace ''{0}'' is followed by whitespace."/>
+            <message key="ws.preceded"
+                     value="GenericWhitespace ''{0}'' is preceded with whitespace."/>
+            <message key="ws.illegalFollow"
+                     value="GenericWhitespace ''{0}'' should followed by whitespace."/>
+            <message key="ws.notPreceded"
+                     value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
+        </module>
         <module name="MethodParamPad"/>
-        <module name="ModifierOrder"/>
-        <module name="MultipleVariableDeclarations"/>
-        <module name="MutableException"/>
-        <module name="NeedBraces"/>
+        <module name="NoLineWrap"/><!-- NEW -->
         <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
-        <module name="OuterTypeFilename"/>
-        <module name="ParameterAssignment"/>
-        <module name="ParameterName"/>
+        <module name="NoWhitespaceBeforeCaseDefaultColon"/><!-- NEW -->
         <module name="ParenPad"/>
-        <module name="RedundantImport"/>
-        <module name="RightCurly"/>
-        <module name="SimplifyBooleanExpression"/>
-        <module name="SimplifyBooleanReturn"/>
-        <module name="StringLiteralEquality"/>
+        <module name="SingleSpaceSeparator"/>
         <module name="TypecastParenPad"/>
-        <module name="TypeName"/>
-        <module name="UnnecessaryParentheses"/>
-        <module name="UnusedImports"/>
-        <module name="UpperEll"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround">
             <property name="ignoreEnhancedForColon" value="false"/>
         </module>
-        <module name="SingleSpaceSeparator"/>
     </module>
-    <module name="SuppressWarningsFilter"/>
 </module>
