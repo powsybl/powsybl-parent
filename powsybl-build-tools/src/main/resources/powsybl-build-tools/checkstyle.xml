@@ -14,7 +14,23 @@
         <property name="fileNamePattern" value="module\-info\.java$" />
     </module>
 
+    <!-- Excludes all 'reports_xx_YY.properties' files              -->
+    <!-- See https://checkstyle.org/filefilters/index.html -->
+    <module name="BeforeExecutionExclusionFileFilter"><!-- NEW -->
+        <property name="fileNamePattern" value=".*[/\\]reports_[a-z]{2}_[A-Z]{2}\.properties$" />
+    </module>
+
+    <!-- Excludes all 'reports*.properties' files in test folders             -->
+    <!-- See https://checkstyle.org/filefilters/index.html -->
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value=".*[\\/](src[\\/](test|test-resources))[\\/].*reports.*\.properties$"/>
+    </module>
+
     <!-- Filters -->
+    <module name="SuppressionFilter">
+        <property name="file" value="checkstyle_suppression.xml"/>
+        <property name="optional" value="true"/>
+    </module>
     <module name="SuppressWarningsFilter"/>
 
     <!-- Miscellaneous -->
@@ -22,8 +38,10 @@
         <property name="lineSeparator" value="lf_cr_crlf"/>
     </module>
     <module name="Translation"><!-- NEW -->
-        <property name="fileExtensions" value="properties"/>
-        <property name="requiredTranslations" value="en, fr"/>
+        <property name="id" value="translation"/>
+        <property name="baseName" value="^reports.*$"/>
+        <property name="fileExtensions" value=".properties"/>
+        <property name="requiredTranslations" value="fr"/>
     </module>
     <module name="UniqueProperties"/><!-- NEW -->
     <module name="OrderedProperties" /><!-- NEW -->
@@ -143,7 +161,7 @@
         <module name="UnnecessarySemicolonInTryWithResources"/><!-- NEW -->
 
         <!-- Imports -->
-        <module name="AvoidStarImport"/><!-- NEW -->
+<!--        <module name="AvoidStarImport"/>&lt;!&ndash; NEW &ndash;&gt;-->
         <module name="CustomImportOrder"><!-- NEW --><!-- based on IntelliJ formatting -->
             <property name="customImportOrderRules"
                       value="THIRD_PARTY_PACKAGE, SPECIAL_IMPORTS, STANDARD_JAVA_PACKAGE, STATIC"/>
