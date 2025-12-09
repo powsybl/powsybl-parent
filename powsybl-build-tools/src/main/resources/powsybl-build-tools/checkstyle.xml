@@ -222,7 +222,7 @@
 
         <!-- Size Violations -->
         <module name="LambdaBodyLength"><!-- NEW -->
-            <property name="max" value="15"/>
+            <property name="max" value="20"/>
         </module>
         <module name="MethodLength"><!-- NEW -->
             <property name="max" value="200"/>
