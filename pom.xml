@@ -173,6 +173,77 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${maven.license.version}</version>
+                    <configuration>
+                        <!-- Required parameters -->
+                        <outputDirectory>${project.basedir}</outputDirectory>
+                        <thirdPartyFilename>THIRD-PARTY.txt</thirdPartyFilename>
+                        <!-- Optional parameters -->
+                        <deployMissingFile>true</deployMissingFile>
+                        <excludedGroups>^com\.powsybl</excludedGroups>
+                        <excludedScopes>test,provided</excludedScopes>
+                        <excludeTransitiveDependencies>false</excludeTransitiveDependencies>
+                        <failOnBlacklist>false</failOnBlacklist>
+                        <failOnMissing>true</failOnMissing>
+                        <fileTemplate>/org/codehaus/mojo/license/third-party-file-groupByMultiLicense.ftl</fileTemplate>
+                        <force>true</force>
+                        <includeOptional>true</includeOptional>
+                        <missingFile>${project.basedir}/THIRD-PARTY.properties</missingFile>
+                        <sortArtifactByName>false</sortArtifactByName>
+                        <useMissingFile>true</useMissingFile>
+                        <licenseMerges>
+                            <licenseMerge>Apache License, Version 2.0|Apache 2</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|Apache 2.0</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|Apache-2.0</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|The Apache License, Version 2.0</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|The Apache Software License, Version 2.0</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|ASL, version 2</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|Apache Software Licenses</licenseMerge>
+                            <licenseMerge>Apache License, Version 2.0|Apache License 2.0</licenseMerge>
+                            <licenseMerge>BSD 0-clause License|0BSD</licenseMerge>
+                            <licenseMerge>BSD 2-clause License|BSD-2-Clause</licenseMerge>
+                            <licenseMerge>BSD 2-clause License|BSD 2-Clause License</licenseMerge>
+                            <licenseMerge>BSD 2-clause License|BSD</licenseMerge>
+                            <licenseMerge>BSD 2-clause License|Simplified BSD License</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|BSD 3-clause</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|BSD-3-Clause</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|BSD licence</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|BSD License</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|Revised BSD</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|Revised BSD License</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|New BSD License</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|The BSD License</licenseMerge>
+                            <licenseMerge>BSD 3-clause License|The BSD 3-Clause License</licenseMerge>
+                            <licenseMerge>CC0 1.0 Universal|CC0</licenseMerge>
+                            <licenseMerge>CC0 1.0 Universal|Public Domain, per Creative Commons CC0</licenseMerge>
+                            <licenseMerge>Eclipse Distribution License - v 1.0|Eclipse Distribution License v1.0</licenseMerge>
+                            <licenseMerge>Eclipse Distribution License - v 1.0|EDL 1.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License, Version 1.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License (EPL) 2.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License v2.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License v. 2.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 2.0|EPL 2.0</licenseMerge>
+                            <licenseMerge>Eclipse Public License - v 2.0|EPL-2.0</licenseMerge>
+                            <licenseMerge>GNU General Public License v2.0|GNU General Public License Version 2</licenseMerge>
+                            <licenseMerge>GNU General Public License v2.0 with Classpath exception|GPL2 w/ CPE</licenseMerge>
+                            <licenseMerge>GNU General Public License v2.0 with Classpath exception|GPL-2.0-with-classpath-exception</licenseMerge>
+                            <licenseMerge>GNU General Public License v2.0 with Classpath exception|GNU General Public License, version 2 with the GNU Classpath Exception</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|LGPL, version 2.1</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|LGPL 2.1</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|LGPL-2.1-or-later</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License Version 2.1</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License Version 2.1, February 1999</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License 2.1</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser Public License</licenseMerge>
+                            <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License</licenseMerge>
+                            <licenseMerge>MIT License|MIT</licenseMerge>
+                            <licenseMerge>MIT License|MIT license (also X11)</licenseMerge>
+                            <licenseMerge>MIT License|The MIT License</licenseMerge>
+                            <licenseMerge>MIT License|The MIT License (MIT)</licenseMerge>
+                            <licenseMerge>MIT No Attribution License|MIT-0</licenseMerge>
+                            <licenseMerge>Mozilla Public License Version 1.1|MPL 1.1</licenseMerge>
+                        </licenseMerges>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -264,7 +335,7 @@
             <activation>
                 <property>
                     <name>powsybl.licenses</name>
-                    <value>true</value>
+                    <value>multi</value>
                 </property>
             </activation>
             <build>
@@ -279,57 +350,32 @@
                                 <goals>
                                     <goal>aggregate-add-third-party</goal>
                                 </goals>
-                                <configuration>
-                                    <!-- Required parameters -->
-                                    <outputDirectory>${project.basedir}</outputDirectory>
-                                    <thirdPartyFilename>THIRD-PARTY.txt</thirdPartyFilename>
-                                    <!-- Optional parameters -->
-                                    <deployMissingFile>true</deployMissingFile>
-                                    <excludedGroups>^com\.powsybl</excludedGroups>
-                                    <excludedScopes>test,provided</excludedScopes>
-                                    <excludeTransitiveDependencies>false</excludeTransitiveDependencies>
-                                    <failOnBlacklist>false</failOnBlacklist>
-                                    <failOnMissing>true</failOnMissing>
-                                    <fileTemplate>/org/codehaus/mojo/license/third-party-file-groupByMultiLicense.ftl</fileTemplate>
-                                    <includeOptional>true</includeOptional>
-                                    <missingFile>${project.basedir}/THIRD-PARTY.properties</missingFile>
-                                    <sortArtifactByName>false</sortArtifactByName>
-                                    <useMissingFile>true</useMissingFile>
-                                    <licenseMerges>
-                                        <licenseMerge>Apache License, Version 2.0|Apache 2</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|Apache 2.0</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|Apache-2.0</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|The Apache License, Version 2.0</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|The Apache Software License, Version 2.0</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|Apache Software Licenses</licenseMerge>
-                                        <licenseMerge>Apache License, Version 2.0|Apache License 2.0</licenseMerge>
-                                        <licenseMerge>Eclipse Distribution License - v 1.0|Eclipse Distribution License v1.0</licenseMerge>
-                                        <licenseMerge>Eclipse Distribution License - v 1.0|EDL 1.0</licenseMerge>
-                                        <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
-                                        <licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License, Version 1.0</licenseMerge>
-                                        <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License (EPL) 2.0</licenseMerge>
-                                        <licenseMerge>Eclipse Public License - v 2.0|Eclipse Public License v2.0</licenseMerge>
-                                        <licenseMerge>Eclipse Public License - v 2.0|EPL 2.0</licenseMerge>
-                                        <licenseMerge>MIT License|MIT</licenseMerge>
-                                        <licenseMerge>MIT License|The MIT License</licenseMerge>
-                                        <licenseMerge>BSD 0-clause License|0BSD</licenseMerge>
-                                        <licenseMerge>BSD 2-clause License|BSD 2-Clause License</licenseMerge>
-                                        <licenseMerge>BSD 2-clause License|BSD</licenseMerge>
-                                        <licenseMerge>BSD 2-clause License|Simplified BSD License</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|BSD 3-clause</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|BSD licence</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|BSD License</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|Revised BSD License</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|New BSD License</licenseMerge>
-                                        <licenseMerge>BSD 3-clause License|The BSD License</licenseMerge>
-                                        <licenseMerge>GNU General Public License v2.0 with Classpath exception|GPL2 w/ CPE</licenseMerge>
-                                        <licenseMerge>GNU Lesser General Public License v2.1|LGPL-2.1-or-later</licenseMerge>
-                                        <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License Version 2.1, February 1999</licenseMerge>
-                                        <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License 2.1</licenseMerge>
-                                        <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser Public License</licenseMerge>
-                                        <licenseMerge>GNU Lesser General Public License v2.1|GNU Lesser General Public License</licenseMerge>
-                                    </licenseMerges>
-                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>licenses-mono</id>
+            <activation>
+                <property>
+                    <name>powsybl.licenses</name>
+                    <value>mono</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-third-party</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>add-third-party</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
