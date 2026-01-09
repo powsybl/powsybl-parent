@@ -25,7 +25,7 @@
 
     <properties>
         <maven.jib.version>3.4.4</maven.jib.version>
-        <maven.spring-boot.version>3.3.3</maven.spring-boot.version>
+        <maven.spring-boot.version>3.4.9</maven.spring-boot.version>
         <!--
           For simplicity, we keep git-commit-id in sync with springboot
           to behave like spring-boot-starter-parent
@@ -54,29 +54,7 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>4.20.0</liquibase-core.version>
-        <!--
-          liquibase-hibernate6 4.20 (the same as liquibase-core) generates useless changesets, 4.23.2 doesn't seem to have this problem.
-          for example, but maybe there are more
-            existing
-            <column name="mystr" type="VARCHAR(255)">
-            still generates
-            <modifyDataType columnName="mystr" newDataType="varchar(255)"/>
-
-            existing
-            <column name="mydate" type="TIMESTAMP">
-            still generates
-            <modifyDataType columnName="mydate" newDataType="timestamp(6)"/>
-
-            existing
-            <column name="myuuid" type="UUID">
-            still generates
-            <modifyDataType columnName="myuuid" newDataType="bytea"/>
-
-            Switching to liquibase-hibernate.version 4.26.0, which includes resolving the issue where it attempted to connect to the database during changelog generation.
-            This connection issue has been corrected in version 4.26.0, along with potential additional bug fixes and enhancements.
-        -->
-        <liquibase-hibernate.version>4.26.0</liquibase-hibernate.version>
+        <liquibase.version>4.29.2</liquibase.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
@@ -175,7 +153,7 @@ jib.to.image = finalName;
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase-core.version}</version>
+                <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
@@ -190,7 +168,7 @@ jib.to.image = finalName;
                     <dependency>
                         <groupId>org.liquibase.ext</groupId>
                         <artifactId>liquibase-hibernate6</artifactId>
-                        <version>${liquibase-hibernate.version}</version>
+                        <version>${liquibase.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.springframework.boot</groupId>
