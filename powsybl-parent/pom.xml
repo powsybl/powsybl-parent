@@ -32,7 +32,7 @@
 
         <maven.buildnumber.version>3.2.1</maven.buildnumber.version>
         <maven.checkstyle.version>3.6.0</maven.checkstyle.version>
-        <checkstyle.version>11.0.1</checkstyle.version> <!-- The maven checkstyle plugin depends on an old version of Checkstyle -->
+        <checkstyle.version>12.3.1</checkstyle.version> <!-- The maven checkstyle plugin depends on an old version of Checkstyle -->
         <maven.failsafe.version>3.5.2</maven.failsafe.version>
         <maven.gmavenplus.version>4.1.1</maven.gmavenplus.version>
         <!--
