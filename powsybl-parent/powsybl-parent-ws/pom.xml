@@ -109,15 +109,28 @@
                         </properties>
                         <source>
 String useJibDefaultName =
-    session.getUserProperties().getProperty("powsybl.docker.useJibDefaultName",
-    project.getProperties().getProperty("powsybl.docker.useJibDefaultName",
-    "false"));
+    session.getUserProperties().getProperty(
+        "powsybl.docker.useJibDefaultName",
+        project.getProperties().getProperty(
+            "powsybl.docker.useJibDefaultName",
+            "false"
+        )
+    );
 String image =
-    session.getUserProperties().getProperty("image",
-    project.getProperties().getProperty("image"));
+    session.getUserProperties().getProperty(
+        "image",
+        project.getProperties().getProperty("image")
+    );
 String jibtoimage =
-    session.getUserProperties().getProperty("jib.to.image",
-    project.getProperties().getProperty("jib.to.image"));
+    session.getUserProperties().getProperty(
+        "jib.to.image",
+        project.getProperties().getProperty("jib.to.image")
+    );
+String registry =
+    session.getUserProperties().getProperty(
+        "powsybl.docker.registry",
+        project.getProperties().getProperty("powsybl.docker.registry")
+    );
 String finalName;
 if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage) {
     String name;
@@ -136,6 +149,14 @@ if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage
         "false"));
     if (!"false".equals(keepSnapshotVersion) @or !project.version.endsWith("-SNAPSHOT")) {
         name = name + ":" + project.version;
+    }
+    // Add registry if provided
+    if (registry != null @and registry.trim().length() > 0) {
+        String normalizedRegistry = registry.trim();
+        if (normalizedRegistry.endsWith("/")) {
+            normalizedRegistry = normalizedRegistry.substring(0, normalizedRegistry.length() - 1);
+        }
+        name = normalizedRegistry + "/" + name;
     }
     print("Setting jib.to.image to " + name);
     finalName = name;
