@@ -19,6 +19,7 @@
     </parent>
     <artifactId>powsybl-parent-ws</artifactId>
     <packaging>pom</packaging>
+    <version>proto-test</version>
 
     <name>Powsybl Parent WS</name>
     <description>Powsybl Parent for Web Services</description>
