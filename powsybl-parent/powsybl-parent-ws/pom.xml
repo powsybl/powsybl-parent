@@ -131,6 +131,15 @@ String registry =
         "powsybl.docker.registry",
         project.getProperties().getProperty("powsybl.docker.registry")
     );
+String imageVersion =
+    session.getUserProperties().getProperty(
+        "powsybl.docker.imageVersion",
+        project.getProperties().getProperty("powsybl.docker.imageVersion")
+    );
+String keepSnapshotVersion =
+    session.getUserProperties().getProperty("powsybl.docker.keepSnapshotVersion",
+    project.getProperties().getProperty("powsybl.docker.keepSnapshotVersion",
+    "false"));
 String finalName;
 if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage) {
     String name;
@@ -143,11 +152,9 @@ if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage
     } else {
         name = project.artifactId; //the default
     }
-    String keepSnapshotVersion =
-        session.getUserProperties().getProperty("powsybl.docker.keepSnapshotVersion",
-        project.getProperties().getProperty("powsybl.docker.keepSnapshotVersion",
-        "false"));
-    if (!"false".equals(keepSnapshotVersion) @or !project.version.endsWith("-SNAPSHOT")) {
+    if (imageVersion != null @and !imageVersion.trim().isEmpty()) {
+        name = name + ":" + imageVersion.trim();
+    } else if (!"false".equals(keepSnapshotVersion) || !project.version.endsWith("-SNAPSHOT")) {
         name = name + ":" + project.version;
     }
     // Add registry if provided
