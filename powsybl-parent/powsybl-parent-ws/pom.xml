@@ -25,7 +25,7 @@
 
     <properties>
         <maven.jib.version>3.4.4</maven.jib.version>
-        <maven.spring-boot.version>3.3.3</maven.spring-boot.version>
+        <maven.spring-boot.version>3.4.9</maven.spring-boot.version>
         <!--
           For simplicity, we keep git-commit-id in sync with springboot
           to behave like spring-boot-starter-parent
@@ -54,29 +54,7 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase-core.version>4.20.0</liquibase-core.version>
-        <!--
-          liquibase-hibernate6 4.20 (the same as liquibase-core) generates useless changesets, 4.23.2 doesn't seem to have this problem.
-          for example, but maybe there are more
-            existing
-            <column name="mystr" type="VARCHAR(255)">
-            still generates
-            <modifyDataType columnName="mystr" newDataType="varchar(255)"/>
-
-            existing
-            <column name="mydate" type="TIMESTAMP">
-            still generates
-            <modifyDataType columnName="mydate" newDataType="timestamp(6)"/>
-
-            existing
-            <column name="myuuid" type="UUID">
-            still generates
-            <modifyDataType columnName="myuuid" newDataType="bytea"/>
-
-            Switching to liquibase-hibernate.version 4.26.0, which includes resolving the issue where it attempted to connect to the database during changelog generation.
-            This connection issue has been corrected in version 4.26.0, along with potential additional bug fixes and enhancements.
-        -->
-        <liquibase-hibernate.version>4.26.0</liquibase-hibernate.version>
+        <liquibase.version>4.29.2</liquibase.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
@@ -131,15 +109,38 @@
                         </properties>
                         <source>
 String useJibDefaultName =
-    session.getUserProperties().getProperty("powsybl.docker.useJibDefaultName",
-    project.getProperties().getProperty("powsybl.docker.useJibDefaultName",
-    "false"));
+    session.getUserProperties().getProperty(
+        "powsybl.docker.useJibDefaultName",
+        project.getProperties().getProperty(
+            "powsybl.docker.useJibDefaultName",
+            "false"
+        )
+    );
 String image =
-    session.getUserProperties().getProperty("image",
-    project.getProperties().getProperty("image"));
+    session.getUserProperties().getProperty(
+        "image",
+        project.getProperties().getProperty("image")
+    );
 String jibtoimage =
-    session.getUserProperties().getProperty("jib.to.image",
-    project.getProperties().getProperty("jib.to.image"));
+    session.getUserProperties().getProperty(
+        "jib.to.image",
+        project.getProperties().getProperty("jib.to.image")
+    );
+String registry =
+    session.getUserProperties().getProperty(
+        "powsybl.docker.registry",
+        project.getProperties().getProperty("powsybl.docker.registry")
+    );
+String imageVersion =
+    session.getUserProperties().getProperty(
+        "powsybl.docker.imageVersion",
+        project.getProperties().getProperty("powsybl.docker.imageVersion")
+    );
+String keepSnapshotVersion =
+    session.getUserProperties().getProperty(
+        "powsybl.docker.keepSnapshotVersion",
+        project.getProperties().getProperty("powsybl.docker.keepSnapshotVersion", "false")
+    );
 String finalName;
 if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage) {
     String name;
@@ -152,12 +153,18 @@ if ("false".equals(useJibDefaultName) @and null == image @and null == jibtoimage
     } else {
         name = project.artifactId; //the default
     }
-    String keepSnapshotVersion =
-        session.getUserProperties().getProperty("powsybl.docker.keepSnapshotVersion",
-        project.getProperties().getProperty("powsybl.docker.keepSnapshotVersion",
-        "false"));
-    if (!"false".equals(keepSnapshotVersion) @or !project.version.endsWith("-SNAPSHOT")) {
+    if (imageVersion != null @and !imageVersion.trim().isEmpty()) {
+        name = name + ":" + imageVersion.trim();
+    } else if (!"false".equals(keepSnapshotVersion) @or !project.version.endsWith("-SNAPSHOT")) {
         name = name + ":" + project.version;
+    }
+    // Add registry if provided
+    if (registry != null @and registry.trim().length() > 0) {
+        String normalizedRegistry = registry.trim();
+        if (normalizedRegistry.endsWith("/")) {
+            normalizedRegistry = normalizedRegistry.substring(0, normalizedRegistry.length() - 1);
+        }
+        name = normalizedRegistry + "/" + name;
     }
     print("Setting jib.to.image to " + name);
     finalName = name;
@@ -175,7 +182,7 @@ jib.to.image = finalName;
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase-core.version}</version>
+                <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <diffChangeLogFile>${liquibase-diff.outputFile}</diffChangeLogFile>
@@ -190,7 +197,7 @@ jib.to.image = finalName;
                     <dependency>
                         <groupId>org.liquibase.ext</groupId>
                         <artifactId>liquibase-hibernate6</artifactId>
-                        <version>${liquibase-hibernate.version}</version>
+                        <version>${liquibase.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.springframework.boot</groupId>
