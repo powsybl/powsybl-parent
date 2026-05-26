@@ -25,7 +25,7 @@
 
     <properties>
         <maven.jib.version>3.4.4</maven.jib.version>
-        <maven.spring-boot.version>3.4.9</maven.spring-boot.version>
+        <maven.spring-boot.version>3.5.11</maven.spring-boot.version>
         <!--
           For simplicity, we keep git-commit-id in sync with springboot
           to behave like spring-boot-starter-parent
