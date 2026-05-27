@@ -25,7 +25,7 @@
 
     <properties>
         <maven.jib.version>3.4.4</maven.jib.version>
-        <maven.spring-boot.version>3.4.9</maven.spring-boot.version>
+        <maven.spring-boot.version>3.5.11</maven.spring-boot.version>
         <!--
           For simplicity, we keep git-commit-id in sync with springboot
           to behave like spring-boot-starter-parent
@@ -54,7 +54,7 @@
         <git-id.failOnUnableToExtractRepoInfo>false</git-id.failOnUnableToExtractRepoInfo>
 
         <!-- for liquibase plugin -->
-        <liquibase.version>4.29.2</liquibase.version>
+        <liquibase.version>4.31.1</liquibase.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-diff.outputFile>src/main/resources/db/changelog/changesets/changelog_${maven.build.timestamp}.xml</liquibase-diff.outputFile>
         <liquibase.username>sa</liquibase.username>
