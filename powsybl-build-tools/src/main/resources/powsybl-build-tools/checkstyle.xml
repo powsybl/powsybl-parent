@@ -47,11 +47,6 @@
 
     <!-- Regexp -->
     <module name="RegexpMultiline">
-        <property name="id" value="noWindowsLineDelimiter"/>
-        <property name="format" value="(\r\n|\r)"/>
-        <property name="message" value="Line has Windows line delimiter."/>
-    </module>
-    <module name="RegexpMultiline">
         <property name="id" value="noConsecutiveLines"/>
         <property name="format" value="\r?\n[\t ]*\r?\n[\t ]*\r?\n"/>
         <property name="fileExtensions" value="java,xml,properties"/>
