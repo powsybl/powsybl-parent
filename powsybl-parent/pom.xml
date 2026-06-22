@@ -387,6 +387,65 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>check-release-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <!-- Skip entirely if no main JAR exists (pom-packaging aggregator modules) -->
+                                        <condition property="jar.exists">
+                                            <available file="${project.build.directory}/${project.build.finalName}.jar"/>
+                                        </condition>
+
+                                        <sequential if:set="jar.exists">
+                                            <!-- Count .class files inside the main JAR -->
+                                            <resourcecount property="class.count">
+                                                <zipfileset src="${project.build.directory}/${project.build.finalName}.jar"
+                                                            includes="**/*.class"/>
+                                            </resourcecount>
+
+                                            <echo message="Found ${class.count} .class file(s) in main JAR"/>
+
+                                            <condition property="has.classes">
+                                                <not><equals arg1="${class.count}" arg2="0"/></not>
+                                            </condition>
+
+                                            <fail message="Module has classes but is missing -sources.jar">
+                                                <condition>
+                                                    <and>
+                                                        <isset property="has.classes"/>
+                                                        <not>
+                                                            <available file="${project.build.directory}/${project.build.finalName}-sources.jar"/>
+                                                        </not>
+                                                    </and>
+                                                </condition>
+                                            </fail>
+
+                                            <fail message="Module has classes but is missing -javadoc.jar">
+                                                <condition>
+                                                    <and>
+                                                        <isset property="has.classes"/>
+                                                        <not>
+                                                            <available file="${project.build.directory}/${project.build.finalName}-javadoc.jar"/>
+                                                        </not>
+                                                    </and>
+                                                </condition>
+                                            </fail>
+
+                                            <echo message="Release artifact check passed."/>
+                                        </sequential>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
                 <pluginManagement>
                     <plugins>
