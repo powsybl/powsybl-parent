@@ -387,6 +387,86 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>check-release-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <!-- Skip entirely if no main JAR exists (pom-packaging aggregator modules) -->
+                                        <condition property="jar.exists">
+                                            <available file="${project.build.directory}/${project.build.finalName}.jar"/>
+                                        </condition>
+
+                                        <sequential if:set="jar.exists">
+                                            <!-- Count .class files inside the main JAR -->
+                                            <resourcecount property="class.count">
+                                                <zipfileset src="${project.build.directory}/${project.build.finalName}.jar"
+                                                            includes="**/*.class"/>
+                                            </resourcecount>
+
+                                            <condition property="has.classes">
+                                                <not><equals arg1="${class.count}" arg2="0"/></not>
+                                            </condition>
+
+                                            <condition property="missing.sources">
+                                                <and>
+                                                    <isset property="has.classes"/>
+                                                    <not>
+                                                        <available file="${project.build.directory}/${project.build.finalName}-sources.jar"/>
+                                                    </not>
+                                                </and>
+                                            </condition>
+
+                                            <condition property="missing.javadoc">
+                                                <and>
+                                                    <isset property="has.classes"/>
+                                                    <not>
+                                                        <available file="${project.build.directory}/${project.build.finalName}-javadoc.jar"/>
+                                                    </not>
+                                                </and>
+                                            </condition>
+
+                                            <condition property="check.failed">
+                                                <or>
+                                                    <isset property="missing.sources"/>
+                                                    <isset property="missing.javadoc"/>
+                                                </or>
+                                            </condition>
+
+                                            <sequential if:set="check.failed">
+                                                <echo message=""/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" RELEASE ARTIFACT CHECK FAILED: ${project.artifactId}"/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" Main JAR    : ${project.build.finalName}.jar (${class.count} classes)"/>
+                                                <echo message=" Sources JAR : ${project.build.finalName}-sources.jar  [OK]"      unless:set="missing.sources"/>
+                                                <echo message=" Sources JAR : ${project.build.finalName}-sources.jar  [MISSING]" if:set="missing.sources"/>
+                                                <echo message=" Javadoc JAR : ${project.build.finalName}-javadoc.jar  [OK]"      unless:set="missing.javadoc"/>
+                                                <echo message=" Javadoc JAR : ${project.build.finalName}-javadoc.jar  [MISSING]" if:set="missing.javadoc"/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" Modules with compiled classes must publish -sources.jar"/>
+                                                <echo message=" and -javadoc.jar to Maven Central."/>
+                                                <echo message="============================================================"/>
+                                                <echo message=""/>
+                                                <fail message="Release artifact check failed for ${project.artifactId} — see above for details"/>
+                                            </sequential>
+
+                                            <echo message="${project.artifactId}: release artifact check passed (${class.count} classes)" unless:set="check.failed"/>
+                                        </sequential>
+
+                                        <echo message="${project.artifactId}: skipped (no JAR produced)" unless:set="jar.exists"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
                 <pluginManagement>
                     <plugins>
