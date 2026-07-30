@@ -290,6 +290,7 @@
                     <extensions>true</extensions>
                     <configuration>
                         <publishingServerId>central</publishingServerId>
+                        <deploymentName>${project.artifactId}_v${project.version}</deploymentName>
                     </configuration>
                 </plugin>
             </plugins>
