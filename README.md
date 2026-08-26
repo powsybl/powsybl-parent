@@ -1,8 +1,7 @@
 # PowSyBl Parent
 
 [![MPL-2.0 License](https://img.shields.io/badge/license-MPL_2.0-blue.svg)](https://www.mozilla.org/en-US/MPL/2.0/)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/powsybl)
-[![Slack](https://img.shields.io/badge/slack-powsybl-blueviolet.svg?logo=slack)](https://join.slack.com/t/powsybl/shared_invite/zt-rzvbuzjk-nxi0boim1RKPS5PjieI0rA)
+[![Slack](https://img.shields.io/badge/slack-powsybl-blueviolet.svg?logo=slack)](https://join.slack.com/t/powsybl/shared_invite/zt-36jvd725u-cnquPgZb6kpjH8SKh~FWHQ)
 
 PowSyBl (**Pow**er **Sy**stem **Bl**ocks) is an open source framework written in Java, that makes it easy to write complex
 software for power systems’ simulations and analysis. Its modular approach allows developers to extend or customize its
@@ -34,6 +33,11 @@ For normal projects, use powsybl-parent. It provides:
 - a -Prelease profile that activates plugins to upload to ossrh (signing, javadoc, source jar)
 - a -Pjacoco enabling jacoco
 - PluginManagement for various plugins, this means that they are enabled only if you repeat them in the <build><plugins> section of your pom : maven-templating-plugin (filter-src), maven-failsafe-plugin (integration-test, verify), maven-plugin-plugin (process-class, utilisé par itools-packager uniquement..), maven-shade-plugin
+- an optional recommended lombok configuration: to activate it, create an empty file `.mvn/lombok-config-copy.marker`, and make sure that the file `lombok.config` at the root of the project exists and contains the following as the first line:
+  ```
+  import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config
+  ```
+  Note: If you created the marker file, there is a check during the build that the first line of lombok.config is correct. If needed, it can be disabled with `-P'!check-lombok'`.
 
 ### WebService java projects
 Additionally, a powsybl-parent-ws using spring and jib is available. It provides
@@ -58,7 +62,7 @@ Then, you can do one of the following:
 ##### Creating changesets
 The most common operation is to generate a new changeSet corresponding to the differences between the existing changesets, and the jpa annotation in the source code. Use this command when you have created or modified your jpa annotations.
   ```
-  mvn clean compile liquibase:update liquibase:diff
+  mvn clean compile liquibase:update liquibase:diff -Dpowsybl.liquibase.generate
   ```
 Note1: for the very first changeset in a projet, omit the "liquibase:update" part of the command line
 
@@ -74,7 +78,14 @@ databaseChangeLog:
   # ... more files
 ```
 ##### Inspecting the schema
-Another possibility is to dump the sql statements corresponding to the jpa annotations (replace DATABASE_TYPE by your database vendor, to get a list of supported types, execute the command as is):
+Another possibility is to dump the sql statements corresponding to the jpa annotations:
   ```
   mvn compile liquibase:dropAll liquibase:diff -Dliquibase-diff.outputFile=out.DATABASE_TYPE.sql
   ```
+
+Another possibility is to dump the sql statements corresponding to the existing changesets:
+  ```
+  mvn clean liquibase:update liquibase:generateChangeLog -Dliquibase.outputChangeLogFile=out.DATABASE_TYPE.sql
+  ```
+
+Note: Replace DATABASE_TYPE by your database vendor. To get a list of supported types, execute the command as is.

@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl</artifactId>
-        <version>9-SNAPSHOT</version>
+        <version>31-SNAPSHOT</version>
     </parent>
     <artifactId>powsybl-parent</artifactId>
     <packaging>pom</packaging>
@@ -28,13 +28,13 @@
     </modules>
 
     <properties>
-        <!-- javac's source and target arguments accept both 1.8 and 8, but release accepts only 8 -->
-        <java.version>8</java.version>
+        <java.version>21</java.version>
 
-        <maven.buildnumber.version>1.4</maven.buildnumber.version>
-        <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
-        <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.gmavenplus.version>1.11.1</maven.gmavenplus.version>
+        <maven.buildnumber.version>3.2.1</maven.buildnumber.version>
+        <maven.checkstyle.version>3.6.0</maven.checkstyle.version>
+        <checkstyle.version>13.4.0</checkstyle.version> <!-- The maven checkstyle plugin depends on an old version of Checkstyle -->
+        <maven.failsafe.version>3.5.5</maven.failsafe.version>
+        <maven.gmavenplus.version>4.3.1</maven.gmavenplus.version>
         <!--
             For groovydoc, we must use the same version as the project's groovy version. Standardize on the groovy.version property.
             For projects which don't use groovy at all, this means the pluginmanagement will hold an invalid <version> definition
@@ -44,22 +44,33 @@
             so projects can detect errors early and fix their groovydoc configuration.
         -->
         <maven.groovydoc.version>${groovy.version}</maven.groovydoc.version>
-        <maven.jacoco.version>0.8.6</maven.jacoco.version>
-        <maven.javadoc.version>3.2.0</maven.javadoc.version>
-        <maven.plugin.version>3.6.0</maven.plugin.version>
-        <maven.shade.version>3.2.4</maven.shade.version>
-        <maven.source.version>3.2.1</maven.source.version>
-        <maven.templating.version>1.0.0</maven.templating.version>
+        <maven.jacoco.version>0.8.14</maven.jacoco.version>
+        <maven.javadoc.version>3.12.0</maven.javadoc.version>
+        <maven.plugin.version>3.15.2</maven.plugin.version>
+        <maven.shade.version>3.6.2</maven.shade.version>
+        <maven.source.version>3.3.1</maven.source.version>
+        <maven.templating.version>3.0.0</maven.templating.version>
+        <maven.sonar.version>5.5.0.6356</maven.sonar.version>
+
+        <!-- Some plugins have dependencies we need to add -->
+        <!--
+            Maven don't seem to have a way to reference the version of 'powsybl-parent' from child pom, so we hardcode a value here.
+            For example, in a multi-module project having 'powsybl-parent' as parent and sub-modules having as parent "../pom.xml", ${parent.version} refere to the root project...
+            Remember to update this property when upgrading this artifact, particularly when updating lombok.config in powsybl-build-tools.
+        -->
+        <powsybl-build-tools.version>31-SNAPSHOT</powsybl-build-tools.version>
 
         <!--
             by default don't override the javadocs. if you want to override the javadocs,
             set the following property in the project
             <properties>
+                <groovydoc.attach>true</groovydoc.attach>
                 <groovydoc.classifier>javadoc</groovydoc.classifier>
                 <groovydoc.groovyDocJavaSources>true</groovydoc.groovyDocJavaSources>
                 <maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
         -->
+        <groovydoc.attach>false</groovydoc.attach>
         <groovydoc.classifier>groovydoc</groovydoc.classifier>
         <groovydoc.groovyDocJavaSources>false</groovydoc.groovyDocJavaSources>
 
@@ -170,6 +181,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${maven.sonar.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -190,6 +206,75 @@
                             <artifactId>maven-compiler-plugin</artifactId>
                             <configuration>
                                 <release>${java.version}</release>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>java21+</id>
+            <activation>
+                <jdk>[21,)</jdk>
+            </activation>
+            <properties>
+                <!--
+                  Temporary solution to remove the JDK21 warning during compilation "Annotation
+                  processing is enabled because one or more processors were
+                  found on the class path." and keep the same behavior as previous JDKs.
+                  This may stop working in the future (java23+ ?) and the
+                  annotation processors probably will have to be explictly
+                  listed using maven's configuration (annotationProcessorPaths ?).
+                  Using this configuration now gives us and the maven community more time to
+                  establish best practices regarding this configuration, how to use it in large
+                  projects with shared inherited build systems.
+                -->
+                <maven.compiler.proc>full</maven.compiler.proc>
+                <!--
+                  need to create an empty argLine property here otherwise tests won't start
+                  with "can't open {argLine}" because of the EnableDynamicAgentLoading workaround
+                -->
+                <argLine/>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <!--
+                                  Temporary solution to remove the JDK21 warning during tests using mockito
+                                  or other agents "WARNING: A Java agent has been loaded dynamically"
+                                  and keep the same behavior as previous JDKs.
+                                  This may stop working in the future (java23+ ?) and the
+                                  agents probably will have to be explictly
+                                  listed using maven's configuration (inject the target artifact jars into argLine).
+                                  Using this configuration now gives us and the maven community more time to
+                                  establish best practices regarding this configuration, how to use it in large
+                                  projects with shared inherited build systems.
+                                  @{argLine} syntax to append instead of replace
+                                -->
+                                <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <configuration>
+                                <!--
+                                    Temporary solution to remove the JDK21 warning during tests using mockito
+                                    or other agents "WARNING: A Java agent has been loaded dynamically"
+                                    and keep the same behavior as previous JDKs.
+                                    This may stop working in the future (java23+ ?) and the
+                                    agents probably will have to be explictly
+                                    listed using maven's configuration (inject the target artifact jars into argLine).
+                                    Using this configuration now gives us and the maven community more time to
+                                    establish best practices regarding this configuration, how to use it in large
+                                    projects with shared inherited build systems.
+                                    @{argLine} syntax to append instead of replace
+                                -->
+                                <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
                             </configuration>
                         </plugin>
                     </plugins>
@@ -258,11 +343,16 @@
                             </execution>
                         </executions>
                         <dependencies>
-                          <dependency>
-                            <groupId>com.powsybl</groupId>
-                            <artifactId>powsybl-build-tools</artifactId>
-                            <version>9-SNAPSHOT</version>
-                          </dependency>
+                            <dependency>
+                                <groupId>com.powsybl</groupId>
+                                <artifactId>powsybl-build-tools</artifactId>
+                                <version>31-SNAPSHOT</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
                         </dependencies>
                     </plugin>
                 </plugins>
@@ -300,6 +390,86 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>check-release-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <!-- Skip entirely if no main JAR exists (pom-packaging aggregator modules) -->
+                                        <condition property="jar.exists">
+                                            <available file="${project.build.directory}/${project.build.finalName}.jar"/>
+                                        </condition>
+
+                                        <sequential if:set="jar.exists">
+                                            <!-- Count .class files inside the main JAR -->
+                                            <resourcecount property="class.count">
+                                                <zipfileset src="${project.build.directory}/${project.build.finalName}.jar"
+                                                            includes="**/*.class"/>
+                                            </resourcecount>
+
+                                            <condition property="has.classes">
+                                                <not><equals arg1="${class.count}" arg2="0"/></not>
+                                            </condition>
+
+                                            <condition property="missing.sources">
+                                                <and>
+                                                    <isset property="has.classes"/>
+                                                    <not>
+                                                        <available file="${project.build.directory}/${project.build.finalName}-sources.jar"/>
+                                                    </not>
+                                                </and>
+                                            </condition>
+
+                                            <condition property="missing.javadoc">
+                                                <and>
+                                                    <isset property="has.classes"/>
+                                                    <not>
+                                                        <available file="${project.build.directory}/${project.build.finalName}-javadoc.jar"/>
+                                                    </not>
+                                                </and>
+                                            </condition>
+
+                                            <condition property="check.failed">
+                                                <or>
+                                                    <isset property="missing.sources"/>
+                                                    <isset property="missing.javadoc"/>
+                                                </or>
+                                            </condition>
+
+                                            <sequential if:set="check.failed">
+                                                <echo message=""/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" RELEASE ARTIFACT CHECK FAILED: ${project.artifactId}"/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" Main JAR    : ${project.build.finalName}.jar (${class.count} classes)"/>
+                                                <echo message=" Sources JAR : ${project.build.finalName}-sources.jar  [OK]"      unless:set="missing.sources"/>
+                                                <echo message=" Sources JAR : ${project.build.finalName}-sources.jar  [MISSING]" if:set="missing.sources"/>
+                                                <echo message=" Javadoc JAR : ${project.build.finalName}-javadoc.jar  [OK]"      unless:set="missing.javadoc"/>
+                                                <echo message=" Javadoc JAR : ${project.build.finalName}-javadoc.jar  [MISSING]" if:set="missing.javadoc"/>
+                                                <echo message="============================================================"/>
+                                                <echo message=" Modules with compiled classes must publish -sources.jar"/>
+                                                <echo message=" and -javadoc.jar to Maven Central."/>
+                                                <echo message="============================================================"/>
+                                                <echo message=""/>
+                                                <fail message="Release artifact check failed for ${project.artifactId} — see above for details"/>
+                                            </sequential>
+
+                                            <echo message="${project.artifactId}: release artifact check passed (${class.count} classes)" unless:set="check.failed"/>
+                                        </sequential>
+
+                                        <echo message="${project.artifactId}: skipped (no JAR produced)" unless:set="jar.exists"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
                 <pluginManagement>
                     <plugins>
@@ -314,7 +484,7 @@
                                         <goal>groovydoc-jar</goal>
                                     </goals>
                                     <configuration>
-                                        <attach>false</attach>
+                                        <attach>${groovydoc.attach}</attach>
                                         <includeClasspath>PROJECT_AND_PLUGIN</includeClasspath>
                                         <classifier>${groovydoc.classifier}</classifier>
                                         <groovyDocJavaSources>${groovydoc.groovyDocJavaSources}</groovyDocJavaSources>
@@ -323,37 +493,95 @@
                             </executions>
                             <dependencies>
                                 <dependency>
-                                    <groupId>org.codehaus.groovy</groupId>
+                                    <groupId>org.apache.groovy</groupId>
                                     <artifactId>groovy-groovydoc</artifactId>
                                     <version>${maven.groovydoc.version}</version>
                                 </dependency>
                             </dependencies>
                         </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>build-helper-maven-plugin</artifactId>
-                            <version>${maven.buildhelper.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-artifact</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>attach-artifact</goal>
-                                    </goals>
-                                    <configuration>
-                                        <artifacts>
-                                            <artifact>
-                                                <file>target/${project.artifactId}-${project.version}-${groovydoc.classifier}.jar</file>
-                                                <type>javadoc</type>
-                                                <classifier>${groovydoc.classifier}</classifier>
-                                            </artifact>
-                                        </artifacts>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
                     </plugins>
                 </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>lombok-config-copy</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-copy-tools</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.powsybl</groupId>
+                                            <artifactId>powsybl-build-tools</artifactId>
+                                            <version>${powsybl-build-tools.version}</version>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.directory}/configs</outputDirectory>
+                                            <destFileName>powsybl-build-tools.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>check-lombok</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.mvn/lombok-config-copy.marker</exists>
+                </file>
+            </activation>
+            <properties>
+                <powsybl.internal.lombok-import-line>import target/configs/powsybl-build-tools.jar!powsybl-build-tools/lombok.config</powsybl.internal.lombok-import-line>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>lombok-verify-main-file</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireFilesExist>
+                                            <files>
+                                                <file>${project.basedir}/lombok.config</file>
+                                            </files>
+                                            <message>Missing file "lombok.config" in project. Please create it starting with the following content "${powsybl.internal.lombok-import-line}".</message>
+                                        </requireFilesExist>
+                                        <evaluateBeanshell>
+                                            <condition>org.codehaus.plexus.util.FileUtils.fileRead(new File(URI.create("${project.baseUri}").resolve("lombok.config")), "UTF-8").startsWith("${powsybl.internal.lombok-import-line}")</condition>
+                                            <message>The lombok.config file must start with the line "${powsybl.internal.lombok-import-line}"</message>
+                                        </evaluateBeanshell>
+                                    </rules>
+                                    <failFast>true</failFast>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
