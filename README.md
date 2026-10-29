@@ -53,6 +53,35 @@ Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 - -Dpowsybl.docker.deploy : deploy the docker image to a docker registry
 - default configuration mimicking spring-boot-starter-parent for default plugins (maven-compiler-plugin, maven-resource-plugin)
 
+#### OpenAPI usage
+
+For Spring Boot services exposing `/v3/api-docs` through Springdoc, the following commands generate `target/api-docs.json`.
+Run them from the server directory replacing `SERVER_PORT` with the values for your service.
+
+##### Build and start the server
+
+Start any infrastructure required by the service (such as PostgreSQL and RabbitMQ), then run:
+
+```shell
+mvn clean install -DskipTests &&
+mvn spring-boot:start \
+  org.springdoc:springdoc-openapi-maven-plugin:1.5:generate \
+  spring-boot:stop \
+  -Dspring-boot.run.profiles=local \
+  -Dspringdoc.apiDocsUrl=http://localhost:SERVER_PORT/v3/api-docs \
+  -Dspringdoc.outputFileName=api-docs.json
+```
+
+##### Use an already running server
+
+If the server is already running locally, generate the specification without rebuilding or starting/stopping the server:
+
+```shell
+mvn org.springdoc:springdoc-openapi-maven-plugin:1.5:generate \
+  -Dspringdoc.apiDocsUrl=http://localhost:SERVER_PORT/v3/api-docs \
+  -Dspringdoc.outputFileName=api-docs.json
+```
+
 #### Liquibase usage
 To use liquibase, you must first:
 - set the maven property 'liquibase-hibernate-package' in your pom.xml to the root package containing your entities
