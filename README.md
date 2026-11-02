@@ -59,7 +59,7 @@ For Spring Boot services exposing `/v3/api-docs` through Springdoc, the followin
 
 ##### Build and start the server
 
-Start any infrastructure required by the service (such as PostgreSQL and RabbitMQ), then run the following command, which forces the server port to `34729`:
+Start any infrastructure required by the service (such as PostgreSQL and RabbitMQ), then run the following command, which forces the server port to `34729` (but you can choose another one if needed):
 
 ```shell
 mvn clean compile spring-boot:start \
