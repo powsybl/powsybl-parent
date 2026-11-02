@@ -55,30 +55,18 @@ Additionally, a powsybl-parent-ws using spring and jib is available. It provides
 
 #### OpenAPI usage
 
-For Spring Boot services exposing `/v3/api-docs` through Springdoc, the following commands generate `target/api-docs.json`.
-Run them from the server directory replacing `SERVER_PORT` with the values for your service.
+For Spring Boot services exposing `/v3/api-docs` through Springdoc, the following command generates `target/api-docs.json`.
 
 ##### Build and start the server
 
-Start any infrastructure required by the service (such as PostgreSQL and RabbitMQ), then run:
+Start any infrastructure required by the service (such as PostgreSQL and RabbitMQ), then run the following command, which forces the server port to `34729`:
 
 ```shell
-mvn clean install -DskipTests &&
-mvn spring-boot:start \
+mvn clean compile spring-boot:start \
   org.springdoc:springdoc-openapi-maven-plugin:1.5:generate \
   spring-boot:stop \
-  -Dspring-boot.run.profiles=local \
-  -Dspringdoc.apiDocsUrl=http://localhost:SERVER_PORT/v3/api-docs \
-  -Dspringdoc.outputFileName=api-docs.json
-```
-
-##### Use an already running server
-
-If the server is already running locally, generate the specification without rebuilding or starting/stopping the server:
-
-```shell
-mvn org.springdoc:springdoc-openapi-maven-plugin:1.5:generate \
-  -Dspringdoc.apiDocsUrl=http://localhost:SERVER_PORT/v3/api-docs \
+  -Dspring-boot.run.arguments="--server.port=34729" \
+  -Dspringdoc.apiDocsUrl=http://localhost:34729/v3/api-docs \
   -Dspringdoc.outputFileName=api-docs.json
 ```
 
