@@ -77,6 +77,9 @@
         <sonar.exclusions>
             **/generated/**/*
         </sonar.exclusions>
+
+        <!-- reproducible builds -->
+        <project.build.outputTimestamp>1980-01-01T00:00:02Z</project.build.outputTimestamp>
     </properties>
 
     <build>
