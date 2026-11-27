@@ -226,6 +226,12 @@ jib.to.image = finalName;
                         <from>
                             <image>${jib.from.image}</image>
                         </from>
+                        <container>
+                            <labels>
+                                <org.opencontainers.image.revision>${git.commit.id}</org.opencontainers.image.revision>
+                                <org.opencontainers.image.source>${git.remote.origin.url}</org.opencontainers.image.source>
+                            </labels>
+                        </container>
                     </configuration>
                 </plugin>
 
